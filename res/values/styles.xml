@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppTheme" parent="@android:style/Theme.Light.NoTitleBar">
+		<!--  set default appearances -->
+        <item name="android:textAppearance">@style/TextAppearance.Medium</item>
+
+        <!--  set default widget styles -->
+        <item name="android:textViewStyle">@style/TextView</item>
+    </style>
+
+    <style name="TextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.Large">
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="TextAppearance.Medium">
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="TextAppearance.Small">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextView" parent="@android:style/Widget.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.Medium</item>
+    </style>
+
+</resources>
+

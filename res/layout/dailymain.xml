@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+	<DatePicker
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+		android:spinnersShown="false"
+		android:layout_margin="4dp"
+		android:background="@drawable/rounded_background"
+		android:id="@+id/dailyDate01" />
+	
+	<TableLayout
+		android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+		android:padding="8dp">
+	
+		<TableRow android:gravity="center">
+	
+		    <TextView
+    		    android:layout_width="fill_parent"
+    		    android:layout_height="wrap_content"
+    		    android:text="@string/daily_label_date" />
+		
+			<EditText
+    		    android:layout_width="fill_parent"
+    		    android:layout_height="wrap_content"
+				android:focusable="false"
+				android:id="@+id/dailyText01" />
+				
+		</TableRow>
+		
+		<TableRow android:gravity="center">
+		
+			<TextView
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/daily_label_flowmeter" />
+
+			<EditText
+    		    android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:lines="1"
+				android:inputType="numberDecimal"
+				android:digits="0123456789."
+				android:hint="@string/daily_hint_nd1"
+				android:gravity="right"
+				android:id="@+id/dailyText02" />
+				
+		</TableRow>
+		
+		<TableRow android:gravity="center">
+		
+    		<TextView
+        		android:layout_width="fill_parent"
+        		android:layout_height="wrap_content"
+				android:text="@string/daily_label_flowdaily" />
+
+			<EditText
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+				android:focusable="false"
+				android:hint="@string/daily_hint_nd3"
+				android:gravity="right"
+				android:id="@+id/dailyText03" />
+				
+		</TableRow>
+		
+	</TableLayout>
+
+</LinearLayout>

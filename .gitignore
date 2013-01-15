@@ -1,0 +1,6 @@
+*.ap*
+*.class
+*.dex
+*old.*
+*.svn*
+

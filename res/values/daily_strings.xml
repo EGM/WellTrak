@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Resource strings for activity Daily.
+-->
+<resources>
+	
+	<string name="daily_label_date">Date:</string>
+	<string name="daily_label_flowmeter">Flow, Meter:</string>
+	<string name="daily_label_flowdaily">Flow, Avg Daily:</string>
+		
+	<string name="daily_hint_nd1">0.0</string>
+	<string name="daily_hint_nd2">0.00</string>
+	<string name="daily_hint_nd3">0.000</string>
+	
+	<string name="daily_menu_compass">Compass</string>
+	<string name="daily_menu_save">Save</string>
+	<string name="daily_menu_search">Search</string>
+	<string name="daily_menu_share">Share</string>
+	<string name="daily_menu_delete">Delete</string>
+	<string name="daily_menu_preferences">Preferences</string>
+
+</resources>
