@@ -9,7 +9,7 @@
         android:layout_height="fill_parent"
 		android:spinnersShown="false"
 		android:layout_margin="4dp"
-		android:background="@drawable/rounded_background_landscape"
+		android:background="@drawable/gradientbackground"
 		android:id="@+id/dailyDate01" />
 	
 	<TableLayout

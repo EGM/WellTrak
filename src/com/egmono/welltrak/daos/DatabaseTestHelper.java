@@ -18,6 +18,11 @@ import android.database.Cursor;
 import android.util.Log;
 import android.content.*;
 
+/**
+* Builds the database up with data to test with, 
+*   with all sql statements stored in xml format
+*   (res/raw/sql.xml)
+*/
 public class DatabaseTestHelper
 {
 	public static void createTestData()

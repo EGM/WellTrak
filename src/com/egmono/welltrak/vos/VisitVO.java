@@ -3,8 +3,12 @@ package com.egmono.welltrak.vos;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
+/** 
+* Models a visit to a well;
+*/
 public class VisitVO
 {
+	/** Database record id */
 	private int id;
 	
 	public int getId(){ return id; }
