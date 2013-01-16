@@ -2,6 +2,7 @@ package com.egmono.welltrak.activities;
 
 import com.egmono.welltrak.BuildConfig;
 import com.egmono.welltrak.R;
+import com.egmono.welltrak.daos.VisitDAO;
 import com.egmono.welltrak.vos.VisitVO;
 
 import android.app.Activity;
@@ -53,14 +54,25 @@ public class DailyActivity extends Activity {
 			*/
 			
 			// Testing stuff...
-			visit.setDate(new Date(datePicker.getYear()-1900,
-					datePicker.getMonth(),
-					datePicker.getDayOfMonth()));
-			dateText.setText(visit.getDateText());
+//			visit.setDate(new Date(datePicker.getYear()-1900,
+//					datePicker.getMonth(),
+//					datePicker.getDayOfMonth()));
+//			dateText.setText(visit.getDateText());
 
+			Log.i(TAG, "(?)Instantiating new VisitDAO");
+			VisitDAO visitDao = new VisitDAO();
+			
+			Log.i(TAG, "(?)Fetching visit from database.");
+			visit = visitDao.getDay(2012,12,28);
+			
+			Log.i(TAG, "(?)Updating display.");
+			dateText.setText(visit.getDateText());
+			totalText.setText(visit.getFlowMeterText());
+			flowText.setText(visit.getFlowAverageDailyText());
+			
 		}
 		catch(Exception e) {
-			Log.d(TAG, "We have an error!", e);
+			Log.d(TAG, "(?)Error: "+e.getMessage(), e);
 		} 
 	}
 	
