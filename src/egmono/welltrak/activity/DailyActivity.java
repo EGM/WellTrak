@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class DailyActivity extends Activity {
 
@@ -30,7 +32,10 @@ public class DailyActivity extends Activity {
 	EditText dateText;
 	EditText totalText;
 	EditText flowText;
-
+	
+	VisitVo visitVo = new VisitVo();
+	VisitDao visitDao = new VisitDao();
+		
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)	{	
@@ -40,14 +45,6 @@ public class DailyActivity extends Activity {
 				
 		try {
 			Test.displayHeader();
-			VisitVo visitVo = new VisitVo();
-			VisitDao visitDao = new VisitDao();
-			
-			SimpleDateFormat fmtIn = new SimpleDateFormat("yyyy-MM-dd");
-			SimpleDateFormat fmtOut = new SimpleDateFormat("(EEE) MMM dd, yyyy");
-			
-			visitVo = visitDao.getDay(fmtIn.parse("2012-08-15"));
-			
 			
 			// Initializing UI objects.
 			datePicker = (DatePicker)findViewById(R.id.dailyDate01);
@@ -55,36 +52,43 @@ public class DailyActivity extends Activity {
 			totalText = (EditText)findViewById(R.id.dailyText02);
 			flowText = (EditText)findViewById(R.id.dailyText03);
 			
-			/*
-			* TODO:
-			* Setup an onDateChangedListener for datePicker to
-			*   fetch a record from the database that corresponds
-			*   to the new date, update 'visit', and reflect that
-			*   update to the interface.
-			*/
+			// Initialize date picker (listener)
+			datePicker.init(datePicker.getYear(),
+					datePicker.getMonth(),
+					datePicker.getDayOfMonth(),
+					new DatePicker.OnDateChangedListener()
+					{
+						@Override
+						public void onDateChanged(DatePicker dp,
+							int y, int m, int d)
+						{
+							visitVo = visitDao.getDay(new Date(y-1900,m,d));
+							updateDisplay();							
+						}
+					});
 			
-			// Testing stuff...
-//			visit.setDate(new Date(datePicker.getYear()-1900,
-//					datePicker.getMonth(),
-//					datePicker.getDayOfMonth()));
-//			dateText.setText(visit.getDateText());
-/*
-			Log.i(TAG, "(?)Instantiating new VisitDAO");
-			VisitDao visitDao = new VisitDao();
-			
-			Log.i(TAG, "(?)Fetching visit from database.");
-			visit = visitDao.getDay(new Date(2012,12,28));
-*/
-			Log.i(TAG, "(TEST) Updating display.");
-			dateText.setText(fmtOut.format(visitVo.getDate()));
-			totalText.setText(((Float)visitVo.getTotal()).toString());
-			flowText.setText(((Float)visitVo.getFlow()).toString());
+			// Force "date changed"...
+			datePicker.updateDate(datePicker.getYear(),
+					datePicker.getMonth(),
+					datePicker.getDayOfMonth());
 			
 			Test.displayTestResults();
 		}
 		catch(Exception e) {
 			Log.d(TAG, "(TEST) Error: "+e.getMessage(), e);
 		} 
+	}
+	
+	private void updateDisplay()
+	{
+		dateText.setText(new SimpleDateFormat("(EEE) MMM dd, yyyy")
+				.format(visitVo.getDate()));
+			
+		totalText.setText(
+			String.format("%1$.1f", visitVo.getTotal()));
+			
+		flowText.setText(
+			String.format("%1$.3f", visitVo.getFlow()));
 	}
 	
 	//TODO: Consider changing 'Menu' to 'ActionBar'
@@ -115,27 +119,39 @@ public class DailyActivity extends Activity {
 			case R.id.menu_compass:
 				// Single menu item is selected do something
 				// Ex: launching new activity/screen or show alert message
-				Toast.makeText(DailyActivity.this, "Bookmark is Selected", Toast.LENGTH_SHORT).show();
+				Toast.makeText(DailyActivity.this, 
+						"Bookmark is Selected", 
+						Toast.LENGTH_SHORT).show();
 				return true;
 
 			case R.id.menu_save:
-				Toast.makeText(DailyActivity.this, "Save is Selected", Toast.LENGTH_SHORT).show();
+				Toast.makeText(DailyActivity.this, 
+						"Save is Selected", 
+						Toast.LENGTH_SHORT).show();
 				return true;
 
 			case R.id.menu_search:
-				Toast.makeText(DailyActivity.this, "Search is Selected", Toast.LENGTH_SHORT).show();
+				Toast.makeText(DailyActivity.this, 
+						"Search is Selected", 
+						Toast.LENGTH_SHORT).show();
 				return true;
 
 			case R.id.menu_share:
-				Toast.makeText(DailyActivity.this, "Share is Selected", Toast.LENGTH_SHORT).show();
+				Toast.makeText(DailyActivity.this, 
+						"Share is Selected", 
+						Toast.LENGTH_SHORT).show();
 				return true;
 
 			case R.id.menu_delete:
-				Toast.makeText(DailyActivity.this, "Delete is Selected", Toast.LENGTH_SHORT).show();
+				Toast.makeText(DailyActivity.this, 
+						"Delete is Selected", 
+						Toast.LENGTH_SHORT).show();
 				return true;
 
 			case R.id.menu_preferences:
-				Toast.makeText(DailyActivity.this, "Preferences is Selected", Toast.LENGTH_SHORT).show();
+				Toast.makeText(DailyActivity.this, 
+						"Preferences is Selected", 
+						Toast.LENGTH_SHORT).show();
 				return true;
 
 			default:
