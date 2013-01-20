@@ -2,7 +2,6 @@ package egmono.util;
 
 import android.util.Log;
 import android.widget.Toast;
-//import egmono.welltrak.*;
 import java.util.Date;
 
 public class Test

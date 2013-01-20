@@ -43,15 +43,14 @@ public class DailyActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dailymain);
 				
-		try {
-			Test.displayHeader();
+		// Initializing UI objects.
+		datePicker = (DatePicker)findViewById(R.id.dailyDate01);
+		dateText = (EditText)findViewById(R.id.dailyText01);
+		totalText = (EditText)findViewById(R.id.dailyText02);
+		flowText = (EditText)findViewById(R.id.dailyText03);
 			
-			// Initializing UI objects.
-			datePicker = (DatePicker)findViewById(R.id.dailyDate01);
-			dateText = (EditText)findViewById(R.id.dailyText01);
-			totalText = (EditText)findViewById(R.id.dailyText02);
-			flowText = (EditText)findViewById(R.id.dailyText03);
-			
+		try
+		{
 			// Initialize date picker (listener)
 			datePicker.init(datePicker.getYear(),
 					datePicker.getMonth(),
@@ -72,7 +71,6 @@ public class DailyActivity extends Activity {
 					datePicker.getMonth(),
 					datePicker.getDayOfMonth());
 			
-			Test.displayTestResults();
 		}
 		catch(Exception e) {
 			Log.d(TAG, "(TEST) Error: "+e.getMessage(), e);
@@ -83,12 +81,8 @@ public class DailyActivity extends Activity {
 	{
 		dateText.setText(new SimpleDateFormat("(EEE) MMM dd, yyyy")
 				.format(visitVo.getDate()));
-			
-		totalText.setText(
-			String.format("%1$.1f", visitVo.getTotal()));
-			
-		flowText.setText(
-			String.format("%1$.3f", visitVo.getFlow()));
+		totalText.setText(String.format("%1$.1f", visitVo.getTotal()));
+		flowText.setText(String.format("%1$.3f", visitVo.getFlow()));
 	}
 	
 	//TODO: Consider changing 'Menu' to 'ActionBar'
