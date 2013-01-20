@@ -1,8 +1,8 @@
-package com.egmono.welltrak.daos;
+package egmono.welltrak.dao;
 
-import com.egmono.welltrak.WellTrakApp;
-import com.egmono.welltrak.R;
-import com.egmono.welltrak.daos.DatabaseHelper;
+import egmono.welltrak.WellTrakApp;
+import egmono.welltrak.R;
+import egmono.welltrak.dao.DatabaseHelper;
 
 import java.io.InputStream;
 
@@ -23,14 +23,18 @@ import android.content.*;
 *   with all sql statements stored in xml format
 *   (res/raw/sql.xml)
 */
-public class DatabaseTestHelper
+public class TestsHelper
 {
-	public static void createTestData()
+	private static final String TAG = TestsHelper.class.getSimpleName();
+	
+	public static void createTestData(SQLiteDatabase db)
 	{
-		SQLiteDatabase db = new DatabaseHelper().getWritableDatabase();
+	
+		//SQLiteDatabase db = new DatabaseHelper().getWritableDatabase();
 		String s;
 		try 
 		{
+			Log.i(TAG, "(TEST) Processing sql statements.");
 			InputStream in = WellTrakApp.getContext().getResources().openRawResource(R.raw.sql);
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			Document doc = builder.parse(in, null);
@@ -40,10 +44,16 @@ public class DatabaseTestHelper
 				s = statements.item(i).getChildNodes().item(0).getNodeValue();
 				db.execSQL(s);
 			}
+			Log.i(TAG, "(TEST) Finished processing sql statements.");
 		} 
 		catch (Throwable t) 
 		{
+			Log.e(TAG, "(TEST) Error: "+t.getMessage(),t);
 			Toast.makeText(WellTrakApp.getContext(), t.toString(), 50000).show();
+		}
+		finally
+		{
+			//db.close();
 		}
 	}
 }

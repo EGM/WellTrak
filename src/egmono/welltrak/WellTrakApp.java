@@ -1,8 +1,9 @@
-package com.egmono.welltrak;
+package egmono.welltrak;
 
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
 * Global application methods and variables.
@@ -17,7 +18,7 @@ public class WellTrakApp extends Application {
 	public void onCreate() {
 		super.onCreate();
 		Log.i(TAG, "WellTrakApp.onCreate was called");
-		instance = this;
+		instance = this;		
 	}
 	
 	/** 

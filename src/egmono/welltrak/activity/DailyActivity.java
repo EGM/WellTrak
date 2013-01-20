@@ -1,9 +1,10 @@
-package com.egmono.welltrak.activities;
+package egmono.welltrak.activity;
 
-import com.egmono.welltrak.BuildConfig;
-import com.egmono.welltrak.R;
-import com.egmono.welltrak.daos.VisitDAO;
-import com.egmono.welltrak.vos.VisitVO;
+import egmono.util.Test;
+import egmono.welltrak.BuildConfig;
+import egmono.welltrak.R;
+import egmono.welltrak.dao.VisitDao;
+import egmono.welltrak.vo.VisitVo;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DailyActivity extends Activity {
@@ -35,9 +37,17 @@ public class DailyActivity extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dailymain);
-		
+				
 		try {
-			VisitVO visit = new VisitVO();
+			Test.displayHeader();
+			VisitVo visitVo = new VisitVo();
+			VisitDao visitDao = new VisitDao();
+			
+			SimpleDateFormat fmtIn = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat fmtOut = new SimpleDateFormat("(EEE) MMM dd, yyyy");
+			
+			visitVo = visitDao.getDay(fmtIn.parse("2012-08-15"));
+			
 			
 			// Initializing UI objects.
 			datePicker = (DatePicker)findViewById(R.id.dailyDate01);
@@ -58,21 +68,22 @@ public class DailyActivity extends Activity {
 //					datePicker.getMonth(),
 //					datePicker.getDayOfMonth()));
 //			dateText.setText(visit.getDateText());
-
+/*
 			Log.i(TAG, "(?)Instantiating new VisitDAO");
-			VisitDAO visitDao = new VisitDAO();
+			VisitDao visitDao = new VisitDao();
 			
 			Log.i(TAG, "(?)Fetching visit from database.");
-			visit = visitDao.getDay(2012,12,28);
+			visit = visitDao.getDay(new Date(2012,12,28));
+*/
+			Log.i(TAG, "(TEST) Updating display.");
+			dateText.setText(fmtOut.format(visitVo.getDate()));
+			totalText.setText(((Float)visitVo.getTotal()).toString());
+			flowText.setText(((Float)visitVo.getFlow()).toString());
 			
-			Log.i(TAG, "(?)Updating display.");
-			dateText.setText(visit.getDateText());
-			totalText.setText(visit.getFlowMeterText());
-			flowText.setText(visit.getFlowAverageDailyText());
-			
+			Test.displayTestResults();
 		}
 		catch(Exception e) {
-			Log.d(TAG, "(?)Error: "+e.getMessage(), e);
+			Log.d(TAG, "(TEST) Error: "+e.getMessage(), e);
 		} 
 	}
 	

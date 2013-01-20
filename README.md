@@ -1,9 +1,11 @@
 WellTrak
 ========
 
-Simple android app to teach myself java.
+Simple android app to teach myself java, 
+completely written, compiled, and tested on my android device
+without the use of a computer.
 
-Source adapted from several sources...
+Source adapted from several sources, including...
 
 http://www.therealjoshua.com/
 

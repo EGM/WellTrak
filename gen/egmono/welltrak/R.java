@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.egmono.welltrak;
+package egmono.welltrak;
 
 public final class R {
     public static final class attr {
