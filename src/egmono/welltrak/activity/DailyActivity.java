@@ -48,33 +48,26 @@ public class DailyActivity extends Activity {
 		dateText = (EditText)findViewById(R.id.dailyText01);
 		totalText = (EditText)findViewById(R.id.dailyText02);
 		flowText = (EditText)findViewById(R.id.dailyText03);
-			
-		try
-		{
-			// Initialize date picker (listener)
-			datePicker.init(datePicker.getYear(),
-					datePicker.getMonth(),
-					datePicker.getDayOfMonth(),
-					new DatePicker.OnDateChangedListener()
-					{
-						@Override
-						public void onDateChanged(DatePicker dp,
+
+		// Initialize date picker (listener)
+		datePicker.init(datePicker.getYear(),
+				datePicker.getMonth(),
+				datePicker.getDayOfMonth(),
+				new DatePicker.OnDateChangedListener()
+				{
+					@Override
+					public void onDateChanged(DatePicker dp,
 							int y, int m, int d)
-						{
-							visitVo = visitDao.getDay(new Date(y-1900,m,d));
-							updateDisplay();							
-						}
-					});
+					{
+						visitVo = visitDao.getDay(new Date(y-1900,m,d));
+						updateDisplay();							
+					}
+				});
 			
-			// Force "date changed"...
-			datePicker.updateDate(datePicker.getYear(),
-					datePicker.getMonth(),
-					datePicker.getDayOfMonth());
-			
-		}
-		catch(Exception e) {
-			Log.d(TAG, "(TEST) Error: "+e.getMessage(), e);
-		} 
+		// Force "date changed"...
+		datePicker.updateDate(datePicker.getYear(),
+				datePicker.getMonth(),
+				datePicker.getDayOfMonth());
 	}
 	
 	private void updateDisplay()
