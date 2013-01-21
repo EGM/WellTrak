@@ -18,10 +18,10 @@ public final class R {
         public static final int rounded_background_landscape=0x7f020004;
     }
     public static final class id {
-        public static final int dailyDate01=0x7f080000;
-        public static final int dailyText01=0x7f080001;
-        public static final int dailyText02=0x7f080002;
-        public static final int dailyText03=0x7f080003;
+        public static final int dailyDate01=0x7f080003;
+        public static final int dailyText01=0x7f080000;
+        public static final int dailyText02=0x7f080001;
+        public static final int dailyText03=0x7f080002;
         public static final int menu_compass=0x7f080004;
         public static final int menu_delete=0x7f080008;
         public static final int menu_preferences=0x7f080009;
@@ -30,7 +30,9 @@ public final class R {
         public static final int menu_share=0x7f080007;
     }
     public static final class layout {
-        public static final int dailymain=0x7f030000;
+        public static final int dailydetails=0x7f030000;
+        public static final int dailymain=0x7f030001;
+        public static final int dailypicker=0x7f030002;
     }
     public static final class menu {
         public static final int dailymenu=0x7f070000;

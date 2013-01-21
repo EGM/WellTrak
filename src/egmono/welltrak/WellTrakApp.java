@@ -1,5 +1,5 @@
 package egmono.welltrak;
-
+import egmono.util.Test;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
@@ -19,6 +19,16 @@ public class WellTrakApp extends Application {
 		super.onCreate();
 		Log.i(TAG, "WellTrakApp.onCreate was called");
 		instance = this;		
+		
+		Test.a(5,5,"<- successfull");
+		Test.a(5,3,"<- failure");
+		Test.a(53,53);
+		Test.a(54,55);
+		Test.a("actual","actual","success!");
+		Test.a("abc","cat","failure!");
+		Test.a(1.0f,1.0f,"float pass");
+		Test.a(1.0f,2.0f,"float fail");
+		Test.displayTestResults();
 	}
 	
 	/** 

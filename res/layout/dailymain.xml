@@ -12,62 +12,12 @@
 		android:background="@drawable/gradientbackground"
 		android:id="@+id/dailyDate01" />
 	
-	<TableLayout
-		android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-		android:padding="8dp">
-	
-		<TableRow android:gravity="center">
-	
-		    <TextView
-    		    android:layout_width="fill_parent"
-    		    android:layout_height="wrap_content"
-    		    android:text="@string/daily_label_date" />
-		
-			<EditText
-    		    android:layout_width="fill_parent"
-    		    android:layout_height="wrap_content"
-				android:focusable="false"
-				android:id="@+id/dailyText01" />
-				
-		</TableRow>
-		
-		<TableRow android:gravity="center">
-		
-			<TextView
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:text="@string/daily_label_flowmeter" />
+	<ScrollView
+	 		android:layout_width="fill_parent"
+     android:layout_height="wrap_content">
 
-			<EditText
-    		    android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:lines="1"
-				android:inputType="numberDecimal"
-				android:digits="0123456789."
-				android:hint="@string/daily_hint_nd1"
-				android:gravity="right"
-				android:id="@+id/dailyText02" />
-				
-		</TableRow>
+		<include layout="@layout/dailydetails"/>
 		
-		<TableRow android:gravity="center">
-		
-    		<TextView
-        		android:layout_width="fill_parent"
-        		android:layout_height="wrap_content"
-				android:text="@string/daily_label_flowdaily" />
-
-			<EditText
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-				android:focusable="false"
-				android:hint="@string/daily_hint_nd3"
-				android:gravity="right"
-				android:id="@+id/dailyText03" />
-				
-		</TableRow>
-		
-	</TableLayout>
+	</ScrollView>
 
 </LinearLayout>
