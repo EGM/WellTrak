@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
-
+import java.util.Date;
 /**
 * Global application methods and variables.
 */
@@ -28,6 +28,11 @@ public class WellTrakApp extends Application {
 		Test.a("abc","cat","failure!");
 		Test.a(1.0f,1.0f,"float pass");
 		Test.a(1.0f,2.0f,"float fail");
+		Date d1 = new Date();
+		Date d2 = new Date();
+		Test.a(d1,d1);
+		Test.a(d1,d2);
+		Test.a(d1.getTime(),d2.getTime());
 		Test.displayTestResults();
 	}
 	
