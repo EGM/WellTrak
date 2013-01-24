@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	
+    <item android:id="@+id/menu_previous"
+		android:icon="@drawable/ic_menu_previous"
+		android:title="@string/menu_previous"
+		android:showAsAction="ifRoom" />
+		
+	<item android:id="@+id/menu_next"
+		android:icon="@drawable/ic_menu_next"
+		android:title="@string/menu_next"
+		android:showAsAction="ifRoom" />
+		
+	<item android:id="@+id/menu_save"
+		android:icon="@drawable/ic_menu_save"
+		android:title="@string/menu_save"
+		android:showAsAction="ifRoom" />
+		
+	<item android:id="@+id/menu_discard"
+		android:icon="@drawable/ic_menu_discard"
+		android:title="@string/menu_discard"
+		android:showAsAction="ifRoom" />
+	
+	<item android:id="@+id/menu_send"
+		android:icon="@drawable/ic_menu_send"
+		android:title="@string/menu_send"
+		android:showAsAction="ifRoom" />
+		
+	<item android:id="@+id/menu_about"
+		android:icon="@drawable/ic_menu_about"
+		android:title="@string/menu_about"
+		android:showAsAction="never" />
+		
+	<item android:id="@+id/menu_help"
+		android:icon="@drawable/ic_menu_help"
+		android:title="@string/menu_help"
+		android:showAsAction="never" />
+	
+</menu>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, MainActivity!</string>
+		
+	<!-- Application -->
+    <string name="app_name">WellTrak</string>
+		
+	<!-- Labels & Descriptions -->
+	<string name="label_date">Date:</string>
+	<string name="desc_date">Date of visit.</string>
+	<string name="label_meter1">Meter, Pump 1:</string>
+	<string name="desc_meter1">Pump #1 flow totalizer.</string>
+	<string name="label_meter2">Meter, Pump 2:</string>
+	<string name="desc_meter2">Pump #2 flow totalizer.</string>
+	<string name="label_flow">Flow, Average:</string>
+	<string name="desc_flow">Average daily flow.</string>
+	<string name="label_cl2entry">Cl2, Entry:</string>
+	<string name="desc_cl2entry">Residual at point of distribution entry as Cl2.</string>
+	<string name="label_cl2remote">Cl2, Remote:</string>
+	<string name="desc_cl2remote">Residual at remote distribution point as Cl2.</string>
+	<string name="label_phentry">pH, Entry:</string>
+	<string name="desc_phentry">pH at point of distribution entry.</string>
+	<string name="label_phremote">pH, Remote:</string>
+	<string name="desc_phremote">pH at remote distribution point.</string>
+		
+	<!-- Hints -->
+	<string name="hint_1decimal">0.0</string>
+	<string name="hint_3decimal">0.000</string>
+		
+	<!-- Menu / Activities -->
+	<string name="menu_previous">Previous</string>
+	<string name="menu_next">Next</string>
+	<string name="menu_save">Save</string>
+	<string name="menu_send">Send</string>
+	<string name="menu_discard">Discard</string>
+	<string name="menu_about">About</string>
+	<string name="menu_help">Help</string>
+		
+</resources>

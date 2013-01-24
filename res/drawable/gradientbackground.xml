@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:shape="rectangle">
+	
+	<!-- holo_blue_dark = FF0099CC -->
+	<gradient
+		android:startColor="@android:color/holo_blue_dark"
+		android:endColor="#CC000000"
+		android:centerX=".5" 
+		android:centerY=".4"
+		android:gradientRadius="320"
+		android:type="radial"/>
+		
+ 	<corners android:radius="16dp" />
+	
+	<padding
+		android:left="8dp" 
+		android:right="8dp" 
+		android:top="16dp" 
+		android:bottom="16dp" />
+		
+</shape>
