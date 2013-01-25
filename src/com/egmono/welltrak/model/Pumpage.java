@@ -6,4 +6,7 @@ public class Pumpage extends Measurement
 	
 	public float getRate() { return this.rate; }
 	public void setRate(float rate) { this.rate = rate; }
+	
+	@Override
+	public String toString() { return super.toString(); }
 }

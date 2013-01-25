@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.text.*;
 
@@ -78,39 +79,60 @@ public class VisitDao
 				{
 					//Returned current date so set id and total
 					visit.setId(c.getInt(c.getColumnIndex(columns._ID)));
-				//	visit.setTotal(c.getFloat(c.getColumnIndex(columns.TOTAL)));
+
+					visit.pump1Total.isNull = c.isNull(c.getColumnIndex(columns.TOTAL1));					
 					visit.pump1Total.setValue(c.getFloat(c.getColumnIndex(columns.TOTAL1)));
 					
 					visit.pump2Total.isNull = c.isNull(c.getColumnIndex(columns.TOTAL2));
-					visit.pump2Total.setValue(c.getFloat(c.getColumnIndex(columns.TOTAL2)));
+					if(!visit.pump2Total.isNull)
+						visit.pump2Total.setValue(c.getFloat(c.getColumnIndex(columns.TOTAL2)));
 					
 					visit.cl2Entry.isNull = c.isNull(c.getColumnIndex(columns.CL2ENT));
-					visit.cl2Entry.setValue(c.getFloat(c.getColumnIndex(columns.CL2ENT)));
+					if(!visit.cl2Entry.isNull)
+						visit.cl2Entry.setValue(c.getFloat(c.getColumnIndex(columns.CL2ENT)));
 				
 					visit.cl2Remote.isNull = c.isNull(c.getColumnIndex(columns.CL2REM));
-					visit.cl2Remote.setValue(c.getFloat(c.getColumnIndex(columns.CL2REM)));
+					if(!visit.cl2Remote.isNull)
+						visit.cl2Remote.setValue(c.getFloat(c.getColumnIndex(columns.CL2REM)));
 
 					visit.phEntry.isNull = c.isNull(c.getColumnIndex(columns.PHENT));
-					visit.phEntry.setValue(c.getFloat(c.getColumnIndex(columns.PHENT)));
+					if(!visit.phEntry.isNull)
+						visit.phEntry.setValue(c.getFloat(c.getColumnIndex(columns.PHENT)));
 
 					visit.phRemote.isNull = c.isNull(c.getColumnIndex(columns.PHREM));
-					visit.phRemote.setValue(c.getFloat(c.getColumnIndex(columns.PHREM)));
-					
+					if(!visit.phRemote.isNull)
+						visit.phRemote.setValue(c.getFloat(c.getColumnIndex(columns.PHREM)));
+				}
+				else
+				{
+					//Did not return current date so set fields to null
+					visit.pump1Total.isNull = true;
+					visit.pump2Total.isNull = true;
+					visit.cl2Entry.isNull = true;
+					visit.cl2Remote.isNull = true;
+					visit.phEntry.isNull = true;
+					visit.phRemote.isNull = true;
 				}
 
 				if(n.moveToFirst())
 				{
 					
 					//Find the current or previous total
-					Float totalPrevious = c.getFloat(
+					Float totalPrevious1 = c.getFloat(
 							c.getColumnIndex(columns.TOTAL1));
+					Float totalPrevious2 = c.getFloat(
+							c.getColumnIndex(columns.TOTAL2));
 							
 					//Find the next total
-					Float totalNext = n.getFloat(
+					Float totalNext1 = n.getFloat(
 							n.getColumnIndex(columns.TOTAL1));
-							
+					Float totalNext2 = n.getFloat(
+						n.getColumnIndex(columns.TOTAL2));
+					
 					//Calculate the difference in flow
-					float totalResult = totalNext - totalPrevious;
+					float totalResult1 = totalNext1 - totalPrevious1;
+					float totalResult2 = totalNext2 - totalPrevious2;
+					float totalResult = totalResult1 + totalResult2;
 					
 					//Find the current or previous date
 					Date datePrevious = sdf.parse(c.getString(
@@ -125,7 +147,8 @@ public class VisitDao
 							datePrevious.getTime()) / 86400000;
 							
 					//Set flow to average daily flow
-			//		visit.setFlow(totalResult/dateResult);
+					visit.flow.setValue(totalResult/dateResult);
+					visit.flow.isNull = false;
 				}
 			}
 		}

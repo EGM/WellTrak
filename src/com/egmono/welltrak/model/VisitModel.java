@@ -2,8 +2,9 @@ package com.egmono.welltrak.model;
 
 import com.egmono.welltrak.WellTrakApp;
 import com.egmono.welltrak.R;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import android.content.res.Resources;
+//import android.content.res.Resources;
 
 /** Visit Value Object */
 public class VisitModel
@@ -41,11 +42,12 @@ public class VisitModel
 	@Override
 	public String toString() 
 	{
+		SimpleDateFormat sdf = new SimpleDateFormat("(EEE) MMM dd, yyyy");
 		StringBuilder sb = new StringBuilder("Well Visit:\n")
 		//Date
 			.append(WellTrakApp.getString(R.string.label_date))
 			.append("\t")
-			.append(date.toLocaleString())
+			.append(sdf.format(date))
 			.append("\n");
 		//Pump #1
 		if(!this.pump1Total.isNull)

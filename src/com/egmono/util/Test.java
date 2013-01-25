@@ -23,12 +23,21 @@ public class Test {
 		StringBuilder sb = new StringBuilder()
 			.append("\n* Tests ran: ").append(testNumber)
 			.append("\n  -> passed: ").append(testsPassed)
-			.append("\n  -> failed: ").append(testsPassed)
+			.append("\n  -> failed: ").append(testsFailed)
 			.append("\n ");
 		Log.v(TAG, sb.toString());
 	}
 	
 	//Tests
+	public static void a(boolean actual, boolean expected, String msg) {
+		if(actual==expected) passed(msg); 
+		else failed(actual, expected, msg); 
+	}
+
+	public static void a(boolean actual, boolean expected) {
+		a(actual, expected, "");
+	}
+	
 	public static void a(int actual, int expected, String msg) {
 		if(actual==expected) passed(msg); 
 		else failed(actual, expected, msg); 
@@ -114,6 +123,14 @@ public class Test {
 			.append(trace[element].getClassName())
 			.append(".")
 			.append(trace[element].getMethodName())
+			.append("])\n  (Called from: [")
+			.append(trace[element+1].getClassName())
+			.append(".")
+			.append(trace[element+1].getMethodName())
+			.append("])\n  (Called from: [")
+			.append(trace[element+2].getClassName())
+			.append(".")
+			.append(trace[element+2].getMethodName())
 			.append("])");
 		Log.e(TAG, sb.toString());
 	}

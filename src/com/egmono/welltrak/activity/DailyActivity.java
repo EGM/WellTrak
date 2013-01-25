@@ -1,5 +1,6 @@
 package com.egmono.welltrak.activity;
 
+import com.egmono.util.Test; 
 import com.egmono.welltrak.WellTrakApp;
 import com.egmono.welltrak.R;
 import com.egmono.welltrak.dao.DatabaseHelper;
@@ -14,16 +15,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.DatePicker;
+import android.widget.DatePicker.*;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.database.sqlite.*;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DailyActivity extends Activity
 {
 	private static final String TAG = "DailyActivity";
 
+	private DatePicker datePicker;
 	private EditText editDate;
 	private EditText editTotal1;
 	private EditText editTotal2;
@@ -32,6 +37,8 @@ public class DailyActivity extends Activity
 	private EditText editCl2Remote;
 	private EditText editPhEntry;
 	private EditText editPhRemote;
+	
+	private Calendar calendar;
 	
 	private VisitModel visitModel;
 	private VisitDao visitDao;
@@ -43,9 +50,11 @@ public class DailyActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.daily_main);
 		
+		datePicker = (DatePicker)findViewById(R.id.daily_datepicker);
 		editDate = (EditText)findViewById(R.id.edit_date);
 		editTotal1 = (EditText)findViewById(R.id.edit_meter1);
 		editTotal2 = (EditText)findViewById(R.id.edit_meter2);
+		editFlow = (EditText)findViewById(R.id.edit_flow);
 		editCl2Entry = (EditText)findViewById(R.id.edit_cl2entry);
 		editCl2Remote = (EditText)findViewById(R.id.edit_cl2remote);
 		editPhEntry = (EditText)findViewById(R.id.edit_phentry);
@@ -54,11 +63,62 @@ public class DailyActivity extends Activity
 		visitModel = new VisitModel();
 		visitDao = new VisitDao();
 		
+		datePicker.init(datePicker.getYear(), 
+				datePicker.getMonth(), 
+				datePicker.getDayOfMonth(), 
+				dateSetListener);
+				
 		//Test...
-		Date testDate = new Date(2012-1900,7,31);
-		visitModel = visitDao.getDay(testDate);
-		updateDisplay();
+//		Date testDate = new Date(2012-1900,7,31);
+//		visitModel = visitDao.getDay(testDate);
+		datePicker.updateDate(2012,7,31);
+		Test.a(datePicker.getYear(), 2012, "2012");
+		Test.a(datePicker.getMonth(), 7, "8 (August)");
+		Test.a(datePicker.getDayOfMonth(), 31, "31st");
+		
+		Test.a(visitModel.pump1Total.getValue(), 4017600.0f, "T1 value");
+		Test.a(visitModel.pump1Total.isNull, false, "T1 isNull");
+		Test.a(visitModel.pump1Total.toString(), "4017600.0", "T1 toString");
+
+		Test.a(visitModel.pump2Total.getValue(), 0.0f, "T2 value");
+		Test.a(visitModel.pump2Total.isNull, true, "T2 isNull");
+		Test.a(visitModel.pump2Total.toString(), "", "T2 toString");
+		
+		Test.a(visitModel.flow.getValue(), 440.0f, "Flow value");
+		Test.a(visitModel.flow.isNull, false, "Flow isNull");
+		Test.a(visitModel.flow.toString(), "440.0", "Flow toString");
+
+		Test.a(visitModel.cl2Entry.getValue(), 2.0f, "Cl2E value");
+		Test.a(visitModel.cl2Entry.isNull, false, "Cl2E isNull");
+		Test.a(visitModel.cl2Entry.toString(), "2.0", "Cl2E toString");
+		
+		Test.a(visitModel.cl2Remote.getValue(), 1.5f, "Cl2R value");
+		Test.a(visitModel.cl2Remote.isNull, false, "Cl2R isNull");
+		Test.a(visitModel.cl2Remote.toString(), "1.5", "Cl2R toString");
+
+		Test.a(visitModel.phEntry.getValue(), 0.0f, "pHE value");
+		Test.a(visitModel.phEntry.isNull, true, "pHE isNull");
+		Test.a(visitModel.phEntry.toString(), "", "pHE toString");
+		
+		Test.a(visitModel.phRemote.getValue(), 0.0f, "pHR value");
+		Test.a(visitModel.phRemote.isNull, true, "pHR isNull");
+		Test.a(visitModel.phRemote.toString(), "", "pHR toString");
+		
+		Test.displayTestResults();
 	}
+	
+
+	private DatePicker.OnDateChangedListener dateSetListener = new DatePicker.OnDateChangedListener() 
+	{
+		@Override
+		public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) 
+		{
+			//calendar.set(year, monthOfYear, dayOfMonth);
+			visitModel = visitDao.getDay(new Date(year-1900, monthOfYear, dayOfMonth));
+			updateDisplay();
+		}
+	};
+	
 	
 	/** Initiating Menu XML file (menu.xml) */
 	@Override
@@ -132,6 +192,7 @@ public class DailyActivity extends Activity
 		}
 	}
 	
+	
 	private void updateDisplay()
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("(EEE) MMM dd, yyyy");
@@ -140,7 +201,7 @@ public class DailyActivity extends Activity
 			editDate.setText(sdf.format(visitModel.getDate()));
 			editTotal1.setText(visitModel.pump1Total.toString());
 			editTotal2.setText(visitModel.pump2Total.toString());
-		//	editFlow.setText(visitModel.flow.toString());
+			editFlow.setText(visitModel.flow.toString());
 			editCl2Entry.setText(visitModel.cl2Entry.toString());
 			editCl2Remote.setText(visitModel.cl2Remote.toString());
 			editPhEntry.setText(visitModel.phEntry.toString());
@@ -148,7 +209,7 @@ public class DailyActivity extends Activity
 		}
 		catch(Exception e)
 		{
-			Log.e(TAG, "Error: "+e.getMessage(),e);
+			Log.e("TEST", TAG+"Error: "+e.getMessage(),e);
 		}
 	}
 	
