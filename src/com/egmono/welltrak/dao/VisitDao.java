@@ -80,10 +80,20 @@ public class VisitDao
 					visit.setId(c.getInt(c.getColumnIndex(columns._ID)));
 				//	visit.setTotal(c.getFloat(c.getColumnIndex(columns.TOTAL)));
 					visit.pump1Total.setValue(c.getFloat(c.getColumnIndex(columns.TOTAL1)));
+					
+					visit.pump2Total.isNull = c.isNull(c.getColumnIndex(columns.TOTAL2));
 					visit.pump2Total.setValue(c.getFloat(c.getColumnIndex(columns.TOTAL2)));
+					
+					visit.cl2Entry.isNull = c.isNull(c.getColumnIndex(columns.CL2ENT));
 					visit.cl2Entry.setValue(c.getFloat(c.getColumnIndex(columns.CL2ENT)));
+				
+					visit.cl2Remote.isNull = c.isNull(c.getColumnIndex(columns.CL2REM));
 					visit.cl2Remote.setValue(c.getFloat(c.getColumnIndex(columns.CL2REM)));
+
+					visit.phEntry.isNull = c.isNull(c.getColumnIndex(columns.PHENT));
 					visit.phEntry.setValue(c.getFloat(c.getColumnIndex(columns.PHENT)));
+
+					visit.phRemote.isNull = c.isNull(c.getColumnIndex(columns.PHREM));
 					visit.phRemote.setValue(c.getFloat(c.getColumnIndex(columns.PHREM)));
 					
 				}

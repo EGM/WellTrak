@@ -23,79 +23,86 @@ public class VisitModel
 	
 	public VisitModel()
 	{
-		pump1Total.setUnit("Gallons");
-		pump2Total.setUnit("Gallons");
-		flow.setUnit("Gallons/Day");
-		cl2Entry.setUnit("mg/L");
-		cl2Remote.setUnit("mg/L");
-		phEntry.setUnit("s.u.");
-		phRemote.setUnit("s.u.");
+		this.pump1Total.setUnit("Gallons");
+		this.pump2Total.setUnit("Gallons");
+		this.flow.setUnit("Gallons/Day");
+		this.cl2Entry.setUnit("mg/L");
+		this.cl2Remote.setUnit("mg/L");
+		this.phEntry.setUnit("s.u.");
+		this.phRemote.setUnit("s.u.");
 	}
 	
-	public int getId(){return _id;}
+	public int getId(){return this._id;}
 	public void setId(int _id){this._id = _id;}
 	
-	public Date getDate(){return date;}
+	public Date getDate(){return this.date;}
 	public void setDate(Date date){this.date = date;}
 		
 	@Override
 	public String toString() 
 	{
-		return new StringBuilder("Well Visit:\n")
+		StringBuilder sb = new StringBuilder("Well Visit:\n")
 		//Date
 			.append(WellTrakApp.getString(R.string.label_date))
 			.append("\t")
 			.append(date.toLocaleString())
-			.append("\n")
+			.append("\n");
 		//Pump #1
-			.append(WellTrakApp.getString(R.string.label_meter1))
+		if(!this.pump1Total.isNull)
+			sb.append(WellTrakApp.getString(R.string.label_meter1))
 			.append("\t")
-			.append(pump1Total.toString())
+			.append(this.pump1Total.toString())
 			.append("\t")
-			.append(pump1Total.getUnit())
-			.append("\n")
+			.append(this.pump1Total.getUnit())
+			.append("\n");
 		//Pump #2
-			.append(WellTrakApp.getString(R.string.label_meter2))
+		if(!this.pump2Total.isNull)
+			sb.append(WellTrakApp.getString(R.string.label_meter2))
 			.append("\t")
-			.append(pump2Total.toString())
+			.append(this.pump2Total.toString())
 			.append("\t")
-			.append(pump2Total.getUnit())
-			.append("\n")
+			.append(this.pump2Total.getUnit())
+			.append("\n");
 		//Flow
-			.append(WellTrakApp.getString(R.string.label_flow))
+		if(!this.flow.isNull)
+			sb.append(WellTrakApp.getString(R.string.label_flow))
 			.append("\t")
 			.append(flow.toString())
 			.append("\t")
 			.append(flow.getUnit())
-			.append("\n")
+			.append("\n");
 		//Cl2, Entry
-			.append(WellTrakApp.getString(R.string.label_cl2entry))
+		if(!this.cl2Entry.isNull)
+			sb.append(WellTrakApp.getString(R.string.label_cl2entry))
 			.append("\t")
 			.append(cl2Entry.toString())
 			.append("\t")
 			.append(cl2Entry.getUnit())
-			.append("\n")
+			.append("\n");
 		//Cl2, Remote
-			.append(WellTrakApp.getString(R.string.label_cl2remote))
+		if(!this.cl2Remote.isNull)
+			sb.append(WellTrakApp.getString(R.string.label_cl2remote))
 			.append("\t\t")
 			.append(cl2Remote.toString())
 			.append("\t")
 			.append(cl2Remote.getUnit())
-			.append("\n")
+			.append("\n");
 		//pH, Entry
-			.append(WellTrakApp.getString(R.string.label_phentry))
+		if(!this.phEntry.isNull)
+			sb.append(WellTrakApp.getString(R.string.label_phentry))
 			.append("\t")
 			.append(phEntry.toString())
 			.append("\t")
 			.append(phEntry.getUnit())
-			.append("\n")
+			.append("\n");
 		//pH, Remote
-			.append(WellTrakApp.getString(R.string.label_phremote))
+		if(!this.phRemote.isNull)
+			sb.append(WellTrakApp.getString(R.string.label_phremote))
 			.append("\t")
 			.append(phRemote.toString())
 			.append("\t")
 			.append(phRemote.getUnit())
-			.append("\n")
-			.toString();
+			.append("\n");
+		return sb.toString();
 	}
 }
