@@ -104,6 +104,12 @@ public class DailyActivity extends Activity
 		Test.a(visitModel.phRemote.isNull, true, "pHR isNull");
 		Test.a(visitModel.phRemote.toString(), "", "pHR toString");
 		
+		Test.a(visitDao.getPreviousRecordDate(visitModel.getDate()),
+			new Date(2012-1900,7,29), "get previous date");
+			
+		Test.a(visitDao.getNextRecordDate(visitModel.getDate()),
+			   new Date(2012-1900,8,5), "get next date");
+		
 		Test.displayTestResults();
 	}
 	
@@ -140,15 +146,31 @@ public class DailyActivity extends Activity
 		/** TODO: Make menu DO stuff! :) */
 		switch (item.getItemId()) {
 			case R.id.menu_previous:
+				Date previousDate = visitDao.getPreviousRecordDate(
+						visitModel.getDate());
 				Toast.makeText(DailyActivity.this, 
-							   "Previous is Selected", 
+							   new StringBuilder("Previous is Selected ")
+							   .append(previousDate.getYear()+1900)
+							   .append("-")
+							   .append(previousDate.getMonth()+1)
+							   .append("-")
+							   .append(previousDate.getDay())
+							   .toString(), 
 							   Toast.LENGTH_SHORT).show();
+				datePicker.updateDate(previousDate.getYear()+1900,
+										previousDate.getMonth()+1,
+										previousDate.getDay());
 				return true;
 				
 			case R.id.menu_next:
 				Toast.makeText(DailyActivity.this, 
 							   "Next is Selected", 
 							   Toast.LENGTH_SHORT).show();
+				Date nextDate = visitDao.getPreviousRecordDate(
+						visitModel.getDate());
+				datePicker.updateDate(nextDate.getYear()+1900,
+									  nextDate.getMonth()+1,
+									  nextDate.getDay());
 				return true;
 				
 			case R.id.menu_save:

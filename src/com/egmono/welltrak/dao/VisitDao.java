@@ -1,14 +1,15 @@
 package com.egmono.welltrak.dao;
 
+import com.egmono.welltrak.model.Analyte;
+import com.egmono.welltrak.model.Pumpage;
 import com.egmono.welltrak.model.VisitModel;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import java.util.Calendar;
 import java.util.Date;
-import java.text.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class VisitDao 
 {
@@ -37,128 +38,174 @@ public class VisitDao
 	}
 	
 	/** Visit selection */
-	protected static class select
+	private static class select
 	{		
-		protected static String previousOrCurrent()
-		{
-			return columns.DATE + " <= ?";
-		}
-		protected static String next()
-		{
-			return columns.DATE + " > ?";
-		}
+		protected final static String previousDate = columns.DATE + " < ?";
+		protected final static String previousOrCurrentDate = columns.DATE + " <= ?";
+		protected final static String nextDate = columns.DATE + " > ?";
 	}
-			
+	
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	
+	public Date getNextRecordDate(Date date)
+	{
+		SQLiteDatabase db = new DatabaseHelper().getReadableDatabase();
+		Cursor nextRecord = getNextRecord(db, date);
+		Date nextDate = new Date();
+		if(nextRecord.moveToFirst())
+			nextDate = getParsedDate(nextRecord);
+		db.close();
+		return nextDate;
+	}
+	
+	public Date getPreviousRecordDate(Date date)
+	{
+		SQLiteDatabase db = new DatabaseHelper().getReadableDatabase();
+		Cursor previousRecord = getPreviousRecord(db, date);
+		Date previousDate = new Date();
+		if(previousRecord.moveToFirst())
+			previousDate = getParsedDate(previousRecord);
+		db.close();
+		return previousDate;
+	}
+	
 	/** Return a Visit from the database for a particular date */
 	public VisitModel getDay(Date date)
 	{
 	 	VisitModel visit = new VisitModel();
 		SQLiteDatabase db = new DatabaseHelper().getReadableDatabase();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		//Always show current date.
 		visit.setDate(date);
 		
-		try
-		{
-			//Retrieve the current date or previous date record.
-			Cursor c = db.query(TABLE, columns.all(), 
-					select.previousOrCurrent(), 
-					new String[]{sdf.format(date)}, 
-					null, null, columns.DATE+" DESC", "1"  );
+		//Retrieve the current date or previous date record.
+		Cursor currentRecord = getPreviousOrCurrentRecord(db, date);
 					
-			//Retrieve the record following date.
-			Cursor n =  db.query(TABLE, columns.all(), 
-					select.next(), 
-					new String[]{sdf.format(date)}, 
-					null, null, columns.DATE+" ASC", "1"  );
+		//Retrieve the record following date.
+		Cursor nextRecord = getNextRecord(db, date);
 					
-			if(c.moveToFirst())
-			{				
-				if(sdf.format(date).equals(c.getString(c.getColumnIndex(columns.DATE))))
-				{
-					//Returned current date so set id and total
-					visit.setId(c.getInt(c.getColumnIndex(columns._ID)));
+		if(currentRecord.moveToFirst())
+		{				
+			if(sdf.format(date).equals(currentRecord.getString(currentRecord.getColumnIndex(columns.DATE))))
+			{
+				//Returned current date so set id
+				visit.setId(currentRecord.getInt(currentRecord.getColumnIndex(columns._ID)));
 
-					visit.pump1Total.isNull = c.isNull(c.getColumnIndex(columns.TOTAL1));					
-					visit.pump1Total.setValue(c.getFloat(c.getColumnIndex(columns.TOTAL1)));
-					
-					visit.pump2Total.isNull = c.isNull(c.getColumnIndex(columns.TOTAL2));
-					if(!visit.pump2Total.isNull)
-						visit.pump2Total.setValue(c.getFloat(c.getColumnIndex(columns.TOTAL2)));
-					
-					visit.cl2Entry.isNull = c.isNull(c.getColumnIndex(columns.CL2ENT));
-					if(!visit.cl2Entry.isNull)
-						visit.cl2Entry.setValue(c.getFloat(c.getColumnIndex(columns.CL2ENT)));
-				
-					visit.cl2Remote.isNull = c.isNull(c.getColumnIndex(columns.CL2REM));
-					if(!visit.cl2Remote.isNull)
-						visit.cl2Remote.setValue(c.getFloat(c.getColumnIndex(columns.CL2REM)));
+				setValue(currentRecord, visit.pump1Total, columns.TOTAL1);
+				setValue(currentRecord, visit.pump2Total, columns.TOTAL2);
+				setValue(currentRecord, visit.cl2Entry,   columns.CL2ENT);
+				setValue(currentRecord, visit.cl2Remote,  columns.CL2REM);
+				setValue(currentRecord, visit.phEntry,    columns.PHENT);
+				setValue(currentRecord, visit.phRemote,   columns.PHREM);
+			}
+			else
+			{
+				//Did not return current date so set fields to null
+				visit.pump1Total.isNull = true;
+				visit.pump2Total.isNull = true;
+				visit.cl2Entry.isNull   = true;
+				visit.cl2Remote.isNull  = true;
+				visit.phEntry.isNull    = true;
+				visit.phRemote.isNull   = true;
+			}
 
-					visit.phEntry.isNull = c.isNull(c.getColumnIndex(columns.PHENT));
-					if(!visit.phEntry.isNull)
-						visit.phEntry.setValue(c.getFloat(c.getColumnIndex(columns.PHENT)));
-
-					visit.phRemote.isNull = c.isNull(c.getColumnIndex(columns.PHREM));
-					if(!visit.phRemote.isNull)
-						visit.phRemote.setValue(c.getFloat(c.getColumnIndex(columns.PHREM)));
-				}
-				else
-				{
-					//Did not return current date so set fields to null
-					visit.pump1Total.isNull = true;
-					visit.pump2Total.isNull = true;
-					visit.cl2Entry.isNull = true;
-					visit.cl2Remote.isNull = true;
-					visit.phEntry.isNull = true;
-					visit.phRemote.isNull = true;
-				}
-
-				if(n.moveToFirst())
-				{
+			if(nextRecord.moveToFirst())
+			{
 					
-					//Find the current or previous total
-					Float totalPrevious1 = c.getFloat(
-							c.getColumnIndex(columns.TOTAL1));
-					Float totalPrevious2 = c.getFloat(
-							c.getColumnIndex(columns.TOTAL2));
+				//Find the current or previous total
+				Float totalPrevious1 = currentRecord.getFloat(
+						currentRecord.getColumnIndex(columns.TOTAL1));
+				Float totalPrevious2 = currentRecord.getFloat(
+						currentRecord.getColumnIndex(columns.TOTAL2));
 							
-					//Find the next total
-					Float totalNext1 = n.getFloat(
-							n.getColumnIndex(columns.TOTAL1));
-					Float totalNext2 = n.getFloat(
-						n.getColumnIndex(columns.TOTAL2));
+				//Find the next total
+				Float totalNext1 = nextRecord.getFloat(
+						nextRecord.getColumnIndex(columns.TOTAL1));
+				Float totalNext2 = nextRecord.getFloat(
+						nextRecord.getColumnIndex(columns.TOTAL2));
 					
-					//Calculate the difference in flow
-					float totalResult1 = totalNext1 - totalPrevious1;
-					float totalResult2 = totalNext2 - totalPrevious2;
-					float totalResult = totalResult1 + totalResult2;
+				//Calculate the difference in flow
+				float totalResult1 = totalNext1 - totalPrevious1;
+				float totalResult2 = totalNext2 - totalPrevious2;
+				float totalResult = totalResult1 + totalResult2;
 					
-					//Find the current or previous date
-					Date datePrevious = sdf.parse(c.getString(
-							c.getColumnIndex(columns.DATE)));
+				Date datePrevious = getParsedDate(currentRecord);
+				Date dateNext = getParsedDate(nextRecord);
+					
+				//Calculate the difference in days
+				float dateResult = (dateNext.getTime() - 
+						datePrevious.getTime()) / 86400000;
 							
-					//Find the next date
-					Date dateNext = sdf.parse(n.getString(
-							n.getColumnIndex(columns.DATE)));
-							
-					//Calculate the difference in days
-					float dateResult = (dateNext.getTime() - 
-							datePrevious.getTime()) / 86400000;
-							
-					//Set flow to average daily flow
-					visit.flow.setValue(totalResult/dateResult);
-					visit.flow.isNull = false;
-				}
+				//Set flow to average daily flow
+				visit.flow.setValue(totalResult/dateResult);
+				visit.flow.isNull = false;
 			}
 		}
-		catch(Exception e)
+		db.close();
+		return visit;
+	}
+	
+	private Date getParsedDate(Cursor cursor)
+	{
+		Date date = new Date();
+		String dateString = cursor.getString(
+				cursor.getColumnIndex(columns.DATE));
+		try
 		{
-			Log.e(TAG, "(TEST) Error: "+e.getMessage(), e);
+			date = sdf.parse(dateString);
+		}
+		catch(ParseException e)
+		{
+			Log.e(TAG, "Error parsing date '" + dateString + "':"
+				+ e.getMessage());
 		}
 		finally
 		{
-			return visit;
+			return date;
+		}
+	}
+	
+	private Cursor getPreviousRecord(SQLiteDatabase db, Date date)
+	{
+		return db.query(TABLE, columns.all(), 
+						select.previousDate, 
+						new String[]{sdf.format(date)}, 
+						null, null, columns.DATE+" DESC", "1"  );
+	}
+	
+	private Cursor getPreviousOrCurrentRecord(SQLiteDatabase db, Date date)
+	{
+		return db.query(TABLE, columns.all(), 
+				select.previousOrCurrentDate, 
+				new String[]{sdf.format(date)}, 
+				null, null, columns.DATE+" DESC", "1"  );
+	}
+	
+	private Cursor getNextRecord(SQLiteDatabase db, Date date)
+	{
+		return db.query(TABLE, columns.all(), 
+				select.nextDate, 
+				new String[]{sdf.format(date)}, 
+				null, null, columns.DATE+" ASC", "1"  );
+	}
+	
+	private void setValue(Cursor cursor, Analyte analyte, String colName)
+	{
+		int colIndex = cursor.getColumnIndex(colName);
+		analyte.isNull = cursor.isNull(colIndex);
+		if(!analyte.isNull)
+		{
+			analyte.setValue(cursor.getFloat(colIndex));	
+		}
+	}
+	
+	private void setValue(Cursor cursor, Pumpage pumpage, String colName)
+	{
+		int colIndex = cursor.getColumnIndex(colName);
+		pumpage.isNull = cursor.isNull(colIndex);
+		if(!pumpage.isNull)
+		{
+			pumpage.setValue(cursor.getFloat(colIndex));
 		}
 	}
 }
