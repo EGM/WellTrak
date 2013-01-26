@@ -18,7 +18,7 @@ INSERT INTO visits VALUES(17, '2012-09-26', 4032600.0, null, 2.0, 2.0,  null, nu
 INSERT INTO visits VALUES(18, '2012-09-28', 4034000.0, null, 2.0, 2.0,  null, null);
 INSERT INTO visits VALUES(19, '2012-10-03', 4036400.0, null, 2.0, 2.0,  null, null);
 INSERT INTO visits VALUES(20, '2012-10-05', 4037700.0, null, 2.0, 2.0,  null, null);
-INSERT INTO visits VALUES(21, '2012-10-09', 4060200.0, null, 2.0, 2.0,  null, null);
+INSERT INTO visits VALUES(21, '2012-10-09', 4040200.0, null, 2.0, 2.0,  null, null);
 INSERT INTO visits VALUES(22, '2012-10-12', 4041500.0, null, 2.0, 2.0,  null, null);
 INSERT INTO visits VALUES(23, '2012-10-17', 4044800.0, null, 2.0, 2.0,  null, null);
 INSERT INTO visits VALUES(24, '2012-10-19', 4045700.0, null, 2.0, 1.5,  null, null);

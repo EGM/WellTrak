@@ -105,10 +105,10 @@ public class DailyActivity extends Activity
 		Test.a(visitModel.phRemote.toString(), "", "pHR toString");
 		
 		Test.a(visitDao.getPreviousRecordDate(visitModel.getDate()),
-			new Date(2012-1900,7,29), "get previous date");
+			new Date(2012-1900,7,29), "get previous date"); // 08-29-2012
 			
 		Test.a(visitDao.getNextRecordDate(visitModel.getDate()),
-			   new Date(2012-1900,8,5), "get next date");
+			   new Date(2012-1900,8,5), "get next date"); // 09-05-2012
 		
 		Test.displayTestResults();
 	}
@@ -119,7 +119,6 @@ public class DailyActivity extends Activity
 		@Override
 		public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) 
 		{
-			//calendar.set(year, monthOfYear, dayOfMonth);
 			visitModel = visitDao.getDay(new Date(year-1900, monthOfYear, dayOfMonth));
 			updateDisplay();
 		}
@@ -130,7 +129,6 @@ public class DailyActivity extends Activity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
-
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.menu, menu);
 		return true;
@@ -148,29 +146,17 @@ public class DailyActivity extends Activity
 			case R.id.menu_previous:
 				Date previousDate = visitDao.getPreviousRecordDate(
 						visitModel.getDate());
-				Toast.makeText(DailyActivity.this, 
-							   new StringBuilder("Previous is Selected ")
-							   .append(previousDate.getYear()+1900)
-							   .append("-")
-							   .append(previousDate.getMonth()+1)
-							   .append("-")
-							   .append(previousDate.getDay())
-							   .toString(), 
-							   Toast.LENGTH_SHORT).show();
 				datePicker.updateDate(previousDate.getYear()+1900,
-										previousDate.getMonth()+1,
-										previousDate.getDay());
+									  previousDate.getMonth(),
+									  previousDate.getDate());
 				return true;
 				
 			case R.id.menu_next:
-				Toast.makeText(DailyActivity.this, 
-							   "Next is Selected", 
-							   Toast.LENGTH_SHORT).show();
-				Date nextDate = visitDao.getPreviousRecordDate(
+				Date nextDate = visitDao.getNextRecordDate(
 						visitModel.getDate());
 				datePicker.updateDate(nextDate.getYear()+1900,
-									  nextDate.getMonth()+1,
-									  nextDate.getDay());
+									  nextDate.getMonth(),
+									  nextDate.getDate());
 				return true;
 				
 			case R.id.menu_save:
@@ -180,10 +166,6 @@ public class DailyActivity extends Activity
 				return true;
 
 			case R.id.menu_send:
-				Toast.makeText(DailyActivity.this, 
-							   "Send is Selected", 
-							   Toast.LENGTH_SHORT).show();
-							   
 				Intent sendIntent = new Intent();
 				sendIntent.setAction(Intent.ACTION_SEND);
 				sendIntent.putExtra(Intent.EXTRA_TEXT, visitModel.toString());
@@ -218,21 +200,13 @@ public class DailyActivity extends Activity
 	private void updateDisplay()
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("(EEE) MMM dd, yyyy");
-		try
-		{
-			editDate.setText(sdf.format(visitModel.getDate()));
-			editTotal1.setText(visitModel.pump1Total.toString());
-			editTotal2.setText(visitModel.pump2Total.toString());
-			editFlow.setText(visitModel.flow.toString());
-			editCl2Entry.setText(visitModel.cl2Entry.toString());
-			editCl2Remote.setText(visitModel.cl2Remote.toString());
-			editPhEntry.setText(visitModel.phEntry.toString());
-			editPhRemote.setText(visitModel.phRemote.toString());
-		}
-		catch(Exception e)
-		{
-			Log.e("TEST", TAG+"Error: "+e.getMessage(),e);
-		}
+		editDate.setText(sdf.format(visitModel.getDate()));
+		editTotal1.setText(visitModel.pump1Total.toString());
+		editTotal2.setText(visitModel.pump2Total.toString());
+		editFlow.setText(visitModel.flow.toString());
+		editCl2Entry.setText(visitModel.cl2Entry.toString());
+		editCl2Remote.setText(visitModel.cl2Remote.toString());
+		editPhEntry.setText(visitModel.phEntry.toString());
+		editPhRemote.setText(visitModel.phRemote.toString());
 	}
-	
 }
