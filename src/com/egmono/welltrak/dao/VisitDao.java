@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import android.content.*;
 
 public class VisitDao 
 {
@@ -40,6 +41,7 @@ public class VisitDao
 	/** Visit selection */
 	private static class select
 	{		
+		protected final static String _id = columns._ID + " = ?";
 		protected final static String previousDate = columns.DATE + " < ?";
 		protected final static String previousOrCurrentDate = columns.DATE + " <= ?";
 		protected final static String nextDate = columns.DATE + " > ?";
@@ -67,6 +69,58 @@ public class VisitDao
 			previousDate = getParsedDate(previousRecord);
 		db.close();
 		return previousDate;
+	}
+	
+	public boolean delete(VisitModel visit)
+	{
+		// stub
+		return true;
+	}
+	
+	public boolean save(VisitModel visit)
+	{
+		SQLiteDatabase db = new DatabaseHelper().getWritableDatabase();
+		ContentValues values = new ContentValues();
+		
+		values.put(columns.DATE, sdf.format(visit.getDate()));		
+		putValue(values, visit.pump1Total, columns.TOTAL1);
+		putValue(values, visit.pump2Total, columns.TOTAL2);
+		putValue(values, visit.cl2Entry,   columns.CL2ENT);
+		putValue(values, visit.cl2Remote,  columns.CL2REM);
+		putValue(values, visit.phEntry,    columns.PHENT);
+		putValue(values, visit.phRemote,   columns.PHREM);
+		
+		if(visit.getId()==0) // is a new record
+		{
+			long new_id = db.insert(TABLE, columns.DATE, values);
+			if(new_id!=-1) // successfully inserted record
+			{
+				Log.d(TAG, "Inserted new record "+Long.toString(new_id));
+				visit.setId(new_id);
+				return true;
+			}
+			else 
+			{
+				Log.d(TAG, "Failed to insert new record.");
+				return false;
+			}
+		}
+		else // is not a new record
+		{
+			values.put(columns._ID, visit.getId());
+			int i = db.update(TABLE, values, select._id, 
+				  		new String[]{Long.toString(visit.getId())});
+			if(i==1) // successfully updated record
+			{
+				Log.d(TAG, "Updated record "+Long.toString(visit.getId()));
+				return true;
+			}
+			else
+			{				
+				Log.d(TAG, "Failed to update record."+Long.toString(visit.getId()));
+				return false;
+			}
+		}
 	}
 	
 	/** Return a Visit from the database for a particular date */
@@ -187,6 +241,22 @@ public class VisitDao
 				select.nextDate, 
 				new String[]{sdf.format(date)}, 
 				null, null, columns.DATE+" ASC", "1"  );
+	}
+	
+	private void putValue(ContentValues values, Analyte analyte, String colName)
+	{
+		if(analyte.isNull)
+			values.putNull(colName);
+		else 
+			values.put(colName, analyte.getValue());
+	}
+	
+	private void putValue(ContentValues values, Pumpage pumpage, String colName)
+	{
+		if(pumpage.isNull)
+			values.putNull(colName);
+		else 
+			values.put(colName, pumpage.getValue());
 	}
 	
 	private void setValue(Cursor cursor, Analyte analyte, String colName)

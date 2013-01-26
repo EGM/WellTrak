@@ -11,7 +11,7 @@ public class VisitModel
 {
 	private static final String TAG = VisitModel.class.getSimpleName();
 	
-	private int   _id = 0;
+	private long  _id = 0;
 	private Date  date = new Date();
 	
 	public Pumpage pump1Total = new Pumpage();
@@ -33,8 +33,8 @@ public class VisitModel
 		this.phRemote.setUnit("s.u.");
 	}
 	
-	public int getId(){return this._id;}
-	public void setId(int _id){this._id = _id;}
+	public long getId(){return this._id;}
+	public void setId(long _id){this._id = _id;}
 	
 	public Date getDate(){return this.date;}
 	public void setDate(Date date){this.date = date;}

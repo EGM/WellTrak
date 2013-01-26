@@ -68,9 +68,7 @@ public class DailyActivity extends Activity
 				datePicker.getDayOfMonth(), 
 				dateSetListener);
 				
-		//Test...
-//		Date testDate = new Date(2012-1900,7,31);
-//		visitModel = visitDao.getDay(testDate);
+/* Testing...
 		datePicker.updateDate(2012,7,31);
 		Test.a(datePicker.getYear(), 2012, "2012");
 		Test.a(datePicker.getMonth(), 7, "8 (August)");
@@ -110,7 +108,12 @@ public class DailyActivity extends Activity
 		Test.a(visitDao.getNextRecordDate(visitModel.getDate()),
 			   new Date(2012-1900,8,5), "get next date"); // 09-05-2012
 		
+		Test.a(visitDao.save(visitModel).getId(), 10L, "update");
+		visitModel.setId(0L);
+		Test.a(visitDao.save(visitModel).getId(), 45L, "insert");
+		
 		Test.displayTestResults();
+*/
 	}
 	
 
@@ -161,8 +164,9 @@ public class DailyActivity extends Activity
 				
 			case R.id.menu_save:
 				Toast.makeText(DailyActivity.this, 
-							   "Save is Selected", 
-							   Toast.LENGTH_SHORT).show();
+						visitDao.save(visitModel)?
+						"Saved.":"FAILED TO SAVE", 
+						Toast.LENGTH_SHORT).show();
 				return true;
 
 			case R.id.menu_send:
