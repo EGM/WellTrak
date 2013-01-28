@@ -22,8 +22,10 @@ public class VisitModel
 	public Analyte phEntry = new Analyte();
 	public Analyte phRemote = new Analyte();
 	
-	public VisitModel()
+	public VisitModel(Date date)
 	{
+		this.setDate(date);
+		
 		this.pump1Total.setUnit("Gallons");
 		this.pump2Total.setUnit("Gallons");
 		this.flow.setUnit("Gallons/Day");
@@ -31,6 +33,10 @@ public class VisitModel
 		this.cl2Remote.setUnit("mg/L");
 		this.phEntry.setUnit("s.u.");
 		this.phRemote.setUnit("s.u.");
+	}
+	public VisitModel()
+	{
+		this(new Date());
 	}
 	
 	public long getId(){return this._id;}
@@ -43,16 +49,17 @@ public class VisitModel
 	public String toString() 
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("(EEE) MMM dd, yyyy");
-		StringBuilder sb = new StringBuilder("Well Visit:\n")
+		StringBuilder sb = new StringBuilder(WellTrakApp.getString(R.string.hdr_send))
+			.append("\n")
 		//Date
 			.append(WellTrakApp.getString(R.string.label_date))
-			.append("\t")
+			.append(":\t")
 			.append(sdf.format(date))
 			.append("\n");
 		//Pump #1
 		if(!this.pump1Total.isNull)
 			sb.append(WellTrakApp.getString(R.string.label_meter1))
-			.append("\t")
+			.append(":\t")
 			.append(this.pump1Total.toString())
 			.append("\t")
 			.append(this.pump1Total.getUnit())
@@ -60,7 +67,7 @@ public class VisitModel
 		//Pump #2
 		if(!this.pump2Total.isNull)
 			sb.append(WellTrakApp.getString(R.string.label_meter2))
-			.append("\t")
+			.append(":\t")
 			.append(this.pump2Total.toString())
 			.append("\t")
 			.append(this.pump2Total.getUnit())
@@ -68,7 +75,7 @@ public class VisitModel
 		//Flow
 		if(!this.flow.isNull)
 			sb.append(WellTrakApp.getString(R.string.label_flow))
-			.append("\t")
+			.append(":\t")
 			.append(flow.toString())
 			.append("\t")
 			.append(flow.getUnit())
@@ -76,7 +83,7 @@ public class VisitModel
 		//Cl2, Entry
 		if(!this.cl2Entry.isNull)
 			sb.append(WellTrakApp.getString(R.string.label_cl2entry))
-			.append("\t")
+			.append(":\t")
 			.append(cl2Entry.toString())
 			.append("\t")
 			.append(cl2Entry.getUnit())
@@ -84,7 +91,7 @@ public class VisitModel
 		//Cl2, Remote
 		if(!this.cl2Remote.isNull)
 			sb.append(WellTrakApp.getString(R.string.label_cl2remote))
-			.append("\t\t")
+			.append(":\t")
 			.append(cl2Remote.toString())
 			.append("\t")
 			.append(cl2Remote.getUnit())
@@ -92,7 +99,7 @@ public class VisitModel
 		//pH, Entry
 		if(!this.phEntry.isNull)
 			sb.append(WellTrakApp.getString(R.string.label_phentry))
-			.append("\t")
+			.append(":\t")
 			.append(phEntry.toString())
 			.append("\t")
 			.append(phEntry.getUnit())
@@ -100,7 +107,7 @@ public class VisitModel
 		//pH, Remote
 		if(!this.phRemote.isNull)
 			sb.append(WellTrakApp.getString(R.string.label_phremote))
-			.append("\t")
+			.append(":\t")
 			.append(phRemote.toString())
 			.append("\t")
 			.append(phRemote.getUnit())

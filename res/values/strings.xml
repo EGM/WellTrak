@@ -7,21 +7,24 @@
     <string name="app_name">WellTrak</string>
 		
 	<!-- Labels & Descriptions -->
-	<string name="label_date">Date:</string>
+	<string name="label_date">Date</string>
+	<string name="label_meter1">Meter, Pump 1</string>
+	<string name="label_meter2">Meter, Pump 2</string>
+	<string name="label_flow">Flow, Average</string>
+	<string name="label_cl2entry">Cl2, Entry</string>
+	<string name="label_cl2remote">Cl2, Remote</string>
+	<string name="label_phentry">pH, Entry</string>
+	<string name="label_phremote">pH, Remote</string>
+	
 	<string name="desc_date">Date of visit.</string>
-	<string name="label_meter1">Meter, Pump 1:</string>
 	<string name="desc_meter1">Pump #1 flow totalizer.</string>
-	<string name="label_meter2">Meter, Pump 2:</string>
 	<string name="desc_meter2">Pump #2 flow totalizer.</string>
-	<string name="label_flow">Flow, Average:</string>
 	<string name="desc_flow">Average daily flow.</string>
-	<string name="label_cl2entry">Cl2, Entry:</string>
-	<string name="desc_cl2entry">Residual at point of distribution entry as Cl2.</string>
-	<string name="label_cl2remote">Cl2, Remote:</string>
-	<string name="desc_cl2remote">Residual at remote distribution point as Cl2.</string>
-	<string name="label_phentry">pH, Entry:</string>
+	<string name="desc_cl2entry">Residual at point of 
+		distribution entry as Cl2.</string>
+	<string name="desc_cl2remote">Residual at remote 
+		distribution point as Cl2.</string>
 	<string name="desc_phentry">pH at point of distribution entry.</string>
-	<string name="label_phremote">pH, Remote:</string>
 	<string name="desc_phremote">pH at remote distribution point.</string>
 		
 	<!-- Hints -->
@@ -37,4 +40,15 @@
 	<string name="menu_about">About</string>
 	<string name="menu_help">Help</string>
 		
+	<!-- Dialogs -->
+	<string name="dlg_ok">Ok</string>
+	<string name="dlg_cancel">Cancel</string>
+		
+	<string name="dlg_discard">Are you sure you want 
+		to discard this permanently?</string>
+		
+	<string name="dlg_save_empty_error">Pump 1 meter cannot be empty.</string>
+	
+	<!-- Headers -->
+	<string name="hdr_send">Well Visit</string>
 </resources>

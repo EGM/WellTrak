@@ -36,7 +36,10 @@
 				android:digits="0123456789."
 				android:hint="@string/hint_1decimal"
 				android:gravity="right"
-				android:id="@+id/edit_meter1" />
+				android:id="@+id/edit_meter1"
+				android:imeOptions="actionNext"
+				android:nextFocusDown="@+id/edit_meter2"
+				android:nextFocusUp="@+id/edit_phremote" />
 				
 		</TableRow>
 		
@@ -55,7 +58,9 @@
 				android:digits="0123456789."
 				android:hint="@string/hint_1decimal"
 				android:gravity="right"
-				android:id="@+id/edit_meter2" />
+				android:id="@id/edit_meter2"
+				android:imeOptions="actionNext"
+				android:nextFocusDown="@+id/edit_cl2entry" />
 
 		</TableRow>
 		
@@ -93,7 +98,9 @@
 				android:digits="0123456789."
 				android:hint="@string/hint_1decimal"
 				android:gravity="right"
-				android:id="@+id/edit_cl2entry" />
+				android:imeOptions="actionNext"
+				android:id="@id/edit_cl2entry"
+				android:nextFocusDown="@+id/edit_cl2remote" />
 			
 		</TableRow>
 		
@@ -112,7 +119,9 @@
 				android:digits="0123456789."
 				android:hint="@string/hint_1decimal"
 				android:gravity="right"
-				android:id="@+id/edit_cl2remote" />
+				android:imeOptions="actionNext"
+				android:id="@id/edit_cl2remote"
+				android:nextFocusDown="@+id/edit_phentry" />
 			
 		</TableRow>
 		
@@ -131,7 +140,9 @@
 				android:digits="0123456789."
 				android:hint="@string/hint_1decimal"
 				android:gravity="right"
-				android:id="@+id/edit_phentry" />
+				android:imeOptions="actionNext"
+				android:id="@id/edit_phentry"
+				android:nextFocusDown="@id/edit_phremote" />
 			
 		</TableRow>
 		
@@ -150,7 +161,9 @@
 				android:digits="0123456789."
 				android:hint="@string/hint_1decimal"
 				android:gravity="right"
-				android:id="@+id/edit_phremote" />
+				android:id="@id/edit_phremote" 
+				android:imeOptions="actionDone"
+				android:nextFocusDown="@id/edit_meter1" />
 
 		</TableRow>
 		

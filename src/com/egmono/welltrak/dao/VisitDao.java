@@ -73,8 +73,22 @@ public class VisitDao
 	
 	public boolean delete(VisitModel visit)
 	{
-		// stub
-		return true;
+		SQLiteDatabase db = new DatabaseHelper().getWritableDatabase();
+		int i = db.delete(TABLE, select._id, 
+				new String[]{Long.toString(visit.getId())});
+		if(i==1) // successfully deleted record
+		{
+			Log.d(TAG, "Deleted record "+Long.toString(visit.getId()));
+			db.close();
+			visit = new VisitModel(visit.getDate());
+			return true;
+		}
+		else
+		{				
+			Log.d(TAG, "Failed to delete record."+Long.toString(visit.getId()));
+			db.close();
+			return false;
+		}
 	}
 	
 	public boolean save(VisitModel visit)
@@ -97,11 +111,13 @@ public class VisitDao
 			{
 				Log.d(TAG, "Inserted new record "+Long.toString(new_id));
 				visit.setId(new_id);
+				db.close();
 				return true;
 			}
 			else 
 			{
 				Log.d(TAG, "Failed to insert new record.");
+				db.close();
 				return false;
 			}
 		}
@@ -113,11 +129,13 @@ public class VisitDao
 			if(i==1) // successfully updated record
 			{
 				Log.d(TAG, "Updated record "+Long.toString(visit.getId()));
+				db.close();
 				return true;
 			}
 			else
 			{				
 				Log.d(TAG, "Failed to update record."+Long.toString(visit.getId()));
+				db.close();
 				return false;
 			}
 		}
