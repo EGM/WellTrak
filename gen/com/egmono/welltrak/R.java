@@ -11,17 +11,18 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int gradientbackground=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int ic_menu_about=0x7f020002;
-        public static final int ic_menu_discard=0x7f020003;
-        public static final int ic_menu_help=0x7f020004;
-        public static final int ic_menu_next=0x7f020005;
-        public static final int ic_menu_previous=0x7f020006;
-        public static final int ic_menu_save=0x7f020007;
-        public static final int ic_menu_search=0x7f020008;
-        public static final int ic_menu_send=0x7f020009;
-        public static final int ic_menu_share=0x7f02000a;
+        public static final int gplv3=0x7f020000;
+        public static final int gradientbackground=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int ic_menu_about=0x7f020003;
+        public static final int ic_menu_discard=0x7f020004;
+        public static final int ic_menu_help=0x7f020005;
+        public static final int ic_menu_next=0x7f020006;
+        public static final int ic_menu_previous=0x7f020007;
+        public static final int ic_menu_save=0x7f020008;
+        public static final int ic_menu_search=0x7f020009;
+        public static final int ic_menu_send=0x7f02000a;
+        public static final int ic_menu_share=0x7f02000b;
     }
     public static final class id {
         public static final int daily_datepicker=0x7f070000;
@@ -45,7 +46,6 @@ public final class R {
         public static final int daily_date=0x7f030000;
         public static final int daily_details=0x7f030001;
         public static final int daily_main=0x7f030002;
-        public static final int dialog=0x7f030003;
     }
     public static final class menu {
         public static final int menu=0x7f060000;
@@ -62,6 +62,7 @@ public final class R {
         public static final int desc_meter2=0x7f04000c;
         public static final int desc_phentry=0x7f040010;
         public static final int desc_phremote=0x7f040011;
+        public static final int dlg_about=0x7f04001f;
         public static final int dlg_cancel=0x7f04001c;
         public static final int dlg_discard=0x7f04001d;
         /**  Dialogs 
@@ -70,7 +71,7 @@ public final class R {
         public static final int dlg_save_empty_error=0x7f04001e;
         /**  Headers 
          */
-        public static final int hdr_send=0x7f04001f;
+        public static final int hdr_send=0x7f040020;
         public static final int hello=0x7f040000;
         /**  Hints 
          */

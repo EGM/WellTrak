@@ -49,6 +49,8 @@
 		
 	<string name="dlg_save_empty_error">Pump 1 meter cannot be empty.</string>
 	
+	<string name="dlg_about">/n</string>
+	
 	<!-- Headers -->
 	<string name="hdr_send">Well Visit</string>
 </resources>

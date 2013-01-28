@@ -7,9 +7,9 @@
 
 	<LinearLayout
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content" >
+		android:layout_height="wrap_content">
 	
-		<include layout="@layout/daily_date"/>
+		<include layout="@layout/daily_date" />
 		
 	</LinearLayout>
 		
@@ -17,7 +17,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
      
-		<include layout="@layout/daily_details"/>
+		<include layout="@layout/daily_details" />
 
 	</ScrollView>
 
