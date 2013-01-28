@@ -13,12 +13,9 @@
     		    android:text="@string/label_date" />
 		
 			<EditText
-    		    android:layout_width="fill_parent"
-    		    android:layout_height="wrap_content"
-				android:focusable="false"
-				android:textColor="@android:color/holo_blue_light"
+				style="@style/InputDecimal.NoFocus"
 				android:id="@+id/edit_date" />
-				
+
 		</TableRow>
 		
 		<TableRow android:gravity="center">
@@ -29,15 +26,8 @@
 		        android:text="@string/label_meter1" />
 
 			<EditText
-    		    android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:lines="1"
-				android:inputType="numberDecimal"
-				android:digits="0123456789."
-				android:hint="@string/hint_1decimal"
-				android:gravity="right"
+				style="@style/InputDecimal"
 				android:id="@+id/edit_meter1"
-				android:imeOptions="actionNext"
 				android:nextFocusDown="@+id/edit_meter2"
 				android:nextFocusUp="@+id/edit_phremote" />
 				
@@ -51,15 +41,8 @@
 		        android:text="@string/label_meter2" />
 
 			<EditText
-    		    android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:lines="1"
-				android:inputType="numberDecimal"
-				android:digits="0123456789."
-				android:hint="@string/hint_1decimal"
-				android:gravity="right"
+				style="@style/InputDecimal"
 				android:id="@id/edit_meter2"
-				android:imeOptions="actionNext"
 				android:nextFocusDown="@+id/edit_cl2entry" />
 
 		</TableRow>
@@ -72,13 +55,7 @@
 				android:text="@string/label_flow" />
 
 			<EditText
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-				android:focusable="false"
-				android:hint="@string/hint_3decimal"
-				android:gravity="right"
-				android:textColor="@android:color/holo_blue_light"
-				android:textColorHint="@android:color/holo_blue_dark"
+				style="@style/InputDecimal.NoFocus"
 				android:id="@+id/edit_flow" />
 				
 		</TableRow>
@@ -91,14 +68,7 @@
 				android:text="@string/label_cl2entry" />
 
 			<EditText
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content" 
-				android:lines="1"
-				android:inputType="numberDecimal"
-				android:digits="0123456789."
-				android:hint="@string/hint_1decimal"
-				android:gravity="right"
-				android:imeOptions="actionNext"
+				style="@style/InputDecimal"
 				android:id="@id/edit_cl2entry"
 				android:nextFocusDown="@+id/edit_cl2remote" />
 			
@@ -112,14 +82,7 @@
 				android:text="@string/label_cl2remote" />
 
 			<EditText
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content" 
-				android:lines="1"
-				android:inputType="numberDecimal"
-				android:digits="0123456789."
-				android:hint="@string/hint_1decimal"
-				android:gravity="right"
-				android:imeOptions="actionNext"
+				style="@style/InputDecimal"
 				android:id="@id/edit_cl2remote"
 				android:nextFocusDown="@+id/edit_phentry" />
 			
@@ -133,14 +96,7 @@
 				android:text="@string/label_phentry" />
 
 			<EditText
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content" 
-				android:lines="1"
-				android:inputType="numberDecimal"
-				android:digits="0123456789."
-				android:hint="@string/hint_1decimal"
-				android:gravity="right"
-				android:imeOptions="actionNext"
+				style="@style/InputDecimal"
 				android:id="@id/edit_phentry"
 				android:nextFocusDown="@id/edit_phremote" />
 			
@@ -154,13 +110,7 @@
 				android:text="@string/label_phremote" />
 
 			<EditText
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content" 
-				android:lines="1"
-				android:inputType="numberDecimal"
-				android:digits="0123456789."
-				android:hint="@string/hint_1decimal"
-				android:gravity="right"
+				style="@style/InputDecimal"
 				android:id="@id/edit_phremote" 
 				android:imeOptions="actionDone"
 				android:nextFocusDown="@id/edit_meter1" />
