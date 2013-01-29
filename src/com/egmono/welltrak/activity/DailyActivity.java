@@ -14,19 +14,29 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.*;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.DatePicker.*;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.database.sqlite.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import org.apache.commons.io.IOUtils;
+import java.io.*;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.StringWriter;
+import android.widget.*;
 
 
 public class DailyActivity extends Activity
@@ -34,6 +44,7 @@ public class DailyActivity extends Activity
 	private static final String TAG = "DailyActivity";
 	private static final int SAVE_ERROR_DIALOG = 25;
 	private static final int DISCARD_DIALOG = 30;
+	private static final int ABOUT_DIALOG = 50;
 	private static final int HELP_DIALOG = 60;
 
 	private DatePicker datePicker;
@@ -174,9 +185,7 @@ public class DailyActivity extends Activity
 				
 			// About
 			case R.id.menu_about:
-				Toast.makeText(DailyActivity.this, 
-							   "About is Selected", 
-							   Toast.LENGTH_SHORT).show();
+				showDialog(ABOUT_DIALOG);
 				return true;
 				
 			// Help
@@ -217,6 +226,16 @@ public class DailyActivity extends Activity
 				discardDlg.show();
 				break;
 				
+			case ABOUT_DIALOG:
+				Builder aboutDlgBldr = new AlertDialog.Builder(this);
+				aboutDlgBldr.setMessage(R.string.dlg_about);
+				aboutDlgBldr.setPositiveButton(R.string.dlg_close, new aboutDlgClickListener());
+				aboutDlgBldr.setNeutralButton(R.string.dlg_license, new aboutDlgClickListener());
+				aboutDlgBldr.setNegativeButton(R.string.dlg_source, new aboutDlgClickListener());
+				AlertDialog aboutDlg = aboutDlgBldr.create();
+				aboutDlg.show();
+				break;
+				
 			case HELP_DIALOG:
 				Builder helpDlgBldr = new AlertDialog.Builder(this);
 				helpDlgBldr.setMessage("This will end the activity");
@@ -236,6 +255,34 @@ public class DailyActivity extends Activity
 		public void onClick(DialogInterface dialog, int which) 
 		{
 			//stub
+		}
+	} 
+	
+	private final class aboutDlgClickListener implements
+    DialogInterface.OnClickListener 
+	{
+		public void onClick(DialogInterface dialog, int which) 
+		{
+			switch (which)
+			{
+				// Source
+				case DialogInterface.BUTTON_NEGATIVE:
+					String urlSource = WellTrakApp.getString(R.string.url_source);
+					Intent viewSource = new Intent(Intent.ACTION_VIEW);
+					viewSource.setData(Uri.parse(urlSource));
+					startActivity(viewSource);
+					break;
+				// License
+				case DialogInterface.BUTTON_NEUTRAL:
+					String urlLicense = WellTrakApp.getString(R.string.url_license);
+					Intent viewLicense = new Intent(Intent.ACTION_VIEW);
+					viewLicense.setData(Uri.parse(urlLicense));
+					startActivity(viewLicense);
+					break;
+				// Close
+				case DialogInterface.BUTTON_POSITIVE:
+					break;
+			}
 		}
 	} 
 	
@@ -295,5 +342,5 @@ public class DailyActivity extends Activity
 		editPhRemote.setText(visitModel.phRemote.toString());
 		
 		invalidateOptionsMenu();
-	}
+	}	
 }

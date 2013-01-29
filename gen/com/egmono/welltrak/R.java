@@ -25,27 +25,31 @@ public final class R {
         public static final int ic_menu_share=0x7f02000b;
     }
     public static final class id {
-        public static final int daily_datepicker=0x7f070000;
-        public static final int edit_cl2entry=0x7f070005;
-        public static final int edit_cl2remote=0x7f070007;
-        public static final int edit_date=0x7f070001;
-        public static final int edit_flow=0x7f070006;
-        public static final int edit_meter1=0x7f070002;
-        public static final int edit_meter2=0x7f070003;
-        public static final int edit_phentry=0x7f070008;
-        public static final int edit_phremote=0x7f070004;
-        public static final int menu_about=0x7f07000e;
-        public static final int menu_discard=0x7f07000c;
-        public static final int menu_help=0x7f07000f;
-        public static final int menu_next=0x7f07000a;
-        public static final int menu_previous=0x7f070009;
-        public static final int menu_save=0x7f07000b;
-        public static final int menu_send=0x7f07000d;
+        public static final int daily_datepicker=0x7f070003;
+        public static final int dlg_button=0x7f070002;
+        public static final int dlg_image=0x7f070000;
+        public static final int dlg_text=0x7f070001;
+        public static final int edit_cl2entry=0x7f070008;
+        public static final int edit_cl2remote=0x7f07000a;
+        public static final int edit_date=0x7f070004;
+        public static final int edit_flow=0x7f070009;
+        public static final int edit_meter1=0x7f070005;
+        public static final int edit_meter2=0x7f070006;
+        public static final int edit_phentry=0x7f07000b;
+        public static final int edit_phremote=0x7f070007;
+        public static final int menu_about=0x7f070011;
+        public static final int menu_discard=0x7f07000f;
+        public static final int menu_help=0x7f070012;
+        public static final int menu_next=0x7f07000d;
+        public static final int menu_previous=0x7f07000c;
+        public static final int menu_save=0x7f07000e;
+        public static final int menu_send=0x7f070010;
     }
     public static final class layout {
-        public static final int daily_date=0x7f030000;
-        public static final int daily_details=0x7f030001;
-        public static final int daily_main=0x7f030002;
+        public static final int about_dialog=0x7f030000;
+        public static final int daily_date=0x7f030001;
+        public static final int daily_details=0x7f030002;
+        public static final int daily_main=0x7f030003;
     }
     public static final class menu {
         public static final int menu=0x7f060000;
@@ -62,16 +66,21 @@ public final class R {
         public static final int desc_meter2=0x7f04000c;
         public static final int desc_phentry=0x7f040010;
         public static final int desc_phremote=0x7f040011;
-        public static final int dlg_about=0x7f04001f;
+        public static final int dlg_about=0x7f040022;
         public static final int dlg_cancel=0x7f04001c;
-        public static final int dlg_discard=0x7f04001d;
-        /**  Dialogs 
+        public static final int dlg_close=0x7f04001d;
+        /**  Dialog Captions 
+         */
+        public static final int dlg_discard=0x7f040020;
+        public static final int dlg_license=0x7f04001e;
+        /**  Dialog Button Captions 
          */
         public static final int dlg_ok=0x7f04001b;
-        public static final int dlg_save_empty_error=0x7f04001e;
+        public static final int dlg_save_empty_error=0x7f040021;
+        public static final int dlg_source=0x7f04001f;
         /**  Headers 
          */
-        public static final int hdr_send=0x7f040020;
+        public static final int hdr_send=0x7f040023;
         public static final int hello=0x7f040000;
         /**  Hints 
          */
@@ -96,6 +105,10 @@ public final class R {
         public static final int menu_previous=0x7f040014;
         public static final int menu_save=0x7f040016;
         public static final int menu_send=0x7f040017;
+        public static final int url_license=0x7f040025;
+        /**  URLs 
+         */
+        public static final int url_source=0x7f040024;
     }
     public static final class style {
         public static final int AppTheme=0x7f050000;

@@ -40,17 +40,27 @@
 	<string name="menu_about">About</string>
 	<string name="menu_help">Help</string>
 		
-	<!-- Dialogs -->
+	<!-- Dialog Button Captions -->
 	<string name="dlg_ok">Ok</string>
 	<string name="dlg_cancel">Cancel</string>
+	<string name="dlg_close">Close</string>
+	<string name="dlg_license">View License</string>
+	<string name="dlg_source">Get Source</string>
 		
+	<!-- Dialog Captions -->
 	<string name="dlg_discard">Are you sure you want 
 		to discard this permanently?</string>
 		
 	<string name="dlg_save_empty_error">Pump 1 meter cannot be empty.</string>
 	
-	<string name="dlg_about">/n</string>
+	<string name="dlg_about">Copyright 2013 John LaDuke\n\n
+	Click \'view license\' to view license online.\n
+	Click \'get source\' to view github page.</string>
 	
 	<!-- Headers -->
 	<string name="hdr_send">Well Visit</string>
+		
+	<!-- URLs -->
+	<string name="url_source">https://github.com/egm/welltrak</string>
+	<string name="url_license">http://www.gnu.org/licenses/gpl-3.0.html</string>
 </resources>
