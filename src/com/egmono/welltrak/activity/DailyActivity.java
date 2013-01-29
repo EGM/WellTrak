@@ -1,5 +1,7 @@
 package com.egmono.welltrak.activity;
 
+import com.egmono.util.Test;
+
 import com.egmono.welltrak.R;
 import com.egmono.welltrak.WellTrakApp;
 import com.egmono.welltrak.dao.VisitDao;
@@ -138,6 +140,7 @@ public class DailyActivity extends Activity
 			* new record or updating the existing record.
 			*/
 			case R.id.menu_save:
+				updateModel();
 				// Don't save if pump 1 total is empty.
 				if(visitModel.pump1Total.isNull)
 				{
@@ -359,4 +362,32 @@ public class DailyActivity extends Activity
 		
 		invalidateOptionsMenu();
 	}	
+	
+	/** 
+	* Write the contents of the edit text fields to the model.
+	*/
+	private void updateModel()
+	{
+		Test.a(editTotal1.getText().toString().isEmpty(), false);
+		
+		if(!editTotal1.getText().toString().isEmpty())
+		visitModel.pump1Total.setValue(editTotal1.getText().toString());
+		
+		if(!editTotal2.getText().toString().isEmpty())
+		visitModel.pump2Total.setValue(editTotal2.getText().toString());
+		
+		if(!editCl2Entry.getText().toString().isEmpty())
+		visitModel.cl2Entry.setValue(editCl2Entry.getText().toString());
+		
+		if(!editCl2Remote.getText().toString().isEmpty())
+		visitModel.cl2Remote.setValue(editCl2Remote.getText().toString());
+		
+		if(!editPhEntry.getText().toString().isEmpty())
+		visitModel.phEntry.setValue(editPhEntry.getText().toString());
+		
+		if(!editPhRemote.getText().toString().isEmpty())
+		visitModel.phRemote.setValue(editPhRemote.getText().toString());
+		
+		Test.displayTestResults();
+	}
 }
