@@ -57,7 +57,7 @@ public class VisitModel
 			.append(sdf.format(date))
 			.append("\n");
 		//Pump #1
-		if(!this.pump1Total.isNull)
+		if(!this.pump1Total.isNull())
 			sb.append(WellTrakApp.getString(R.string.label_meter1))
 			.append(":\t")
 			.append(this.pump1Total.toString())
@@ -65,7 +65,7 @@ public class VisitModel
 			.append(this.pump1Total.getUnit())
 			.append("\n");
 		//Pump #2
-		if(!this.pump2Total.isNull)
+		if(!this.pump2Total.isNull())
 			sb.append(WellTrakApp.getString(R.string.label_meter2))
 			.append(":\t")
 			.append(this.pump2Total.toString())
@@ -73,7 +73,7 @@ public class VisitModel
 			.append(this.pump2Total.getUnit())
 			.append("\n");
 		//Flow
-		if(!this.flow.isNull)
+		if(!this.flow.isNull())
 			sb.append(WellTrakApp.getString(R.string.label_flow))
 			.append(":\t")
 			.append(flow.toString())
@@ -81,7 +81,7 @@ public class VisitModel
 			.append(flow.getUnit())
 			.append("\n");
 		//Cl2, Entry
-		if(!this.cl2Entry.isNull)
+		if(!this.cl2Entry.isNull())
 			sb.append(WellTrakApp.getString(R.string.label_cl2entry))
 			.append(":\t")
 			.append(cl2Entry.toString())
@@ -89,7 +89,7 @@ public class VisitModel
 			.append(cl2Entry.getUnit())
 			.append("\n");
 		//Cl2, Remote
-		if(!this.cl2Remote.isNull)
+		if(!this.cl2Remote.isNull())
 			sb.append(WellTrakApp.getString(R.string.label_cl2remote))
 			.append(":\t")
 			.append(cl2Remote.toString())
@@ -97,7 +97,7 @@ public class VisitModel
 			.append(cl2Remote.getUnit())
 			.append("\n");
 		//pH, Entry
-		if(!this.phEntry.isNull)
+		if(!this.phEntry.isNull())
 			sb.append(WellTrakApp.getString(R.string.label_phentry))
 			.append(":\t")
 			.append(phEntry.toString())
@@ -105,7 +105,7 @@ public class VisitModel
 			.append(phEntry.getUnit())
 			.append("\n");
 		//pH, Remote
-		if(!this.phRemote.isNull)
+		if(!this.phRemote.isNull())
 			sb.append(WellTrakApp.getString(R.string.label_phremote))
 			.append(":\t")
 			.append(phRemote.toString())

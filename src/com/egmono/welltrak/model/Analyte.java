@@ -1,6 +1,6 @@
 package com.egmono.welltrak.model;
 
-public class Analyte extends Measurement
+public class Analyte extends Measurement 
 {
 	private char qualifier = '\u0000';
 	

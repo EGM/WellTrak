@@ -2,20 +2,18 @@ package com.egmono.welltrak.model;
 
 import android.util.Log;
 
-public class Measurement
+public class Measurement implements Measurable
 {
 	private final static String TAG = "Measurement";
 	private float value = 0.0f;
 	private String unit = "";
-	public boolean isNull = true;
-	
+	private boolean isNull = true;
+
 	public float getValue() { return this.value; }
 	
-	public void setValue(Float value) { 
-		Log.d(TAG, "Old value = "+this.toString());
+	public void setValue(float value) { 
 		this.value = value; 
 		this.isNull=false;
-		Log.d(TAG, "New value = "+this.toString());
 	}
 	
 	public void setValue(String value) {
@@ -31,6 +29,9 @@ public class Measurement
 			}
 		}
 	}
+
+	public boolean isNull() { return this.isNull; }
+	public void isNull(boolean bool) { this.isNull = bool; }
 	
 	public String getUnit() { return this.unit; }
 	public void setUnit(String unit) { this.unit = unit; }
@@ -43,5 +44,5 @@ public class Measurement
 		else {
 			return String.format("%.1f",this.value); 
 		}
-	}
+	} 
 }

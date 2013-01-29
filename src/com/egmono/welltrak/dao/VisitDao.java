@@ -1,7 +1,6 @@
 package com.egmono.welltrak.dao;
 
-import com.egmono.welltrak.model.Analyte;
-import com.egmono.welltrak.model.Pumpage;
+import com.egmono.welltrak.model.Measurable;
 import com.egmono.welltrak.model.VisitModel;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -173,12 +172,12 @@ public class VisitDao
 			else
 			{
 				//Did not return current date so set fields to null
-				visit.pump1Total.isNull = true;
-				visit.pump2Total.isNull = true;
-				visit.cl2Entry.isNull   = true;
-				visit.cl2Remote.isNull  = true;
-				visit.phEntry.isNull    = true;
-				visit.phRemote.isNull   = true;
+				visit.pump1Total.isNull(true);
+				visit.pump2Total.isNull(true);
+				visit.cl2Entry.isNull(true);
+				visit.cl2Remote.isNull(true);
+				visit.phEntry.isNull(true);
+				visit.phRemote.isNull(true);
 			}
 
 			if(nextRecord.moveToFirst())
@@ -210,7 +209,7 @@ public class VisitDao
 							
 				//Set flow to average daily flow
 				visit.flow.setValue(totalResult/dateResult);
-				visit.flow.isNull = false;
+				visit.flow.isNull(false);
 			}
 		}
 		db.close();
@@ -261,39 +260,22 @@ public class VisitDao
 				null, null, columns.DATE+" ASC", "1"  );
 	}
 	
-	private void putValue(ContentValues values, Analyte analyte, String colName)
+	private void putValue(ContentValues values, Measurable m, String colName)
 	{
-		if(analyte.isNull)
+		if(m.isNull())
 			values.putNull(colName);
 		else 
-			values.put(colName, analyte.getValue());
+			values.put(colName, m.getValue());
 	}
 	
-	private void putValue(ContentValues values, Pumpage pumpage, String colName)
-	{
-		if(pumpage.isNull)
-			values.putNull(colName);
-		else 
-			values.put(colName, pumpage.getValue());
-	}
-	
-	private void setValue(Cursor cursor, Analyte analyte, String colName)
+	private void setValue(Cursor cursor, Measurable m, String colName)
 	{
 		int colIndex = cursor.getColumnIndex(colName);
-		analyte.isNull = cursor.isNull(colIndex);
-		if(!analyte.isNull)
+		m.isNull(cursor.isNull(colIndex));
+		if(!m.isNull())
 		{
-			analyte.setValue(cursor.getFloat(colIndex));	
+			m.setValue(cursor.getFloat(colIndex));	
 		}
 	}
 	
-	private void setValue(Cursor cursor, Pumpage pumpage, String colName)
-	{
-		int colIndex = cursor.getColumnIndex(colName);
-		pumpage.isNull = cursor.isNull(colIndex);
-		if(!pumpage.isNull)
-		{
-			pumpage.setValue(cursor.getFloat(colIndex));
-		}
-	}
 }
