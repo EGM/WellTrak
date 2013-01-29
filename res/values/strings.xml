@@ -54,7 +54,7 @@
 	<string name="dlg_save_empty_error">Pump 1 meter cannot be empty.</string>
 	
 	<string name="dlg_about">Copyright 2013 John LaDuke\n\n
-	Click \'view license\' to view license online.\n
+	Click \'view license\' to view license online.\n\n
 	Click \'get source\' to view github page.</string>
 	
 	<!-- Headers -->

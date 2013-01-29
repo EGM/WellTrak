@@ -1,9 +1,7 @@
 package com.egmono.welltrak.activity;
 
-import com.egmono.util.Test; 
-import com.egmono.welltrak.WellTrakApp;
 import com.egmono.welltrak.R;
-import com.egmono.welltrak.dao.DatabaseHelper;
+import com.egmono.welltrak.WellTrakApp;
 import com.egmono.welltrak.dao.VisitDao;
 import com.egmono.welltrak.model.VisitModel;
 
@@ -11,42 +9,37 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.*;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+
 import android.widget.DatePicker;
-import android.widget.DatePicker.*;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
-import android.database.sqlite.*;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import org.apache.commons.io.IOUtils;
-import java.io.*;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.StringWriter;
-import android.widget.*;
-
 
 public class DailyActivity extends Activity
 {
+	// Tag used in logging.
 	private static final String TAG = "DailyActivity";
+	
+	// Dialog identifiers.
 	private static final int SAVE_ERROR_DIALOG = 25;
 	private static final int DISCARD_DIALOG = 30;
 	private static final int ABOUT_DIALOG = 50;
-	private static final int HELP_DIALOG = 60;
 
+	// Display variables.
 	private DatePicker datePicker;
 	private EditText editDate;
 	private EditText editTotal1;
@@ -69,40 +62,16 @@ public class DailyActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.daily_main);
 		
-		datePicker = (DatePicker)findViewById(R.id.daily_datepicker);
-		editDate = (EditText)findViewById(R.id.edit_date);
-		editTotal1 = (EditText)findViewById(R.id.edit_meter1);
-		editTotal2 = (EditText)findViewById(R.id.edit_meter2);
-		editFlow = (EditText)findViewById(R.id.edit_flow);
-		editCl2Entry = (EditText)findViewById(R.id.edit_cl2entry);
-		editCl2Remote = (EditText)findViewById(R.id.edit_cl2remote);
-		editPhEntry = (EditText)findViewById(R.id.edit_phentry);
-		editPhRemote = (EditText)findViewById(R.id.edit_phremote);
+		initializeDisplayVariables();
 		
 		visitModel = new VisitModel();
 		visitDao = new VisitDao();
 		
-		datePicker.init(datePicker.getYear(), 
-				datePicker.getMonth(), 
-				datePicker.getDayOfMonth(), 
-				dateSetListener);
+		// Force an update of the datepicker to cause display update.
 		datePicker.updateDate(datePicker.getYear(), 
 							  datePicker.getMonth(), 
 							  datePicker.getDayOfMonth());
-				
 	}
-	
-	/** Actions to perform when the user picks a new date. */
-	private DatePicker.OnDateChangedListener dateSetListener = new DatePicker.OnDateChangedListener() 
-	{
-		@Override
-		public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) 
-		{
-			visitModel = visitDao.getDay(new Date(year-1900, monthOfYear, dayOfMonth));
-			updateDisplay();
-		}
-	};
-	
 	
 	/** Initiating Menu XML file (menu.xml) */
 	@Override
@@ -113,13 +82,18 @@ public class DailyActivity extends Activity
 		return true;
 	}
 	
-	/** Enable/disable action items */
+	/** Enable/disable menu action items */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) 
 	{
 		// Disable the discard menu function if it is a new visit.
-		MenuItem item= menu.findItem(R.id.menu_discard);
-		item.setEnabled(visitModel.getId()!=0L);
+		menu.findItem(R.id.menu_discard)
+			.setEnabled(visitModel.getId()!=0L);
+		
+		// Disable help function.
+		menu.findItem(R.id.menu_help)
+			.setEnabled(false);
+		
 		super.onPrepareOptionsMenu(menu);
 		return true;
 	}
@@ -131,34 +105,45 @@ public class DailyActivity extends Activity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{
-
-		switch (item.getItemId()) {
-			// Navigate to next earlier dated visit stored in db
+		switch (item.getItemId()) 
+		{
+			/**
+			* Retrieve the closest date prior to the displayed date,
+			* update datepicker to new date.
+			*/
 			case R.id.menu_previous:
 				Date previousDate = visitDao.getPreviousRecordDate(
 						visitModel.getDate());
+						
 				datePicker.updateDate(previousDate.getYear()+1900,
 									  previousDate.getMonth(),
 									  previousDate.getDate());
 				return true;
 				
-			// Navigate to next later dated visit stored in db
+			/**
+			* Retrieve the closest date prior to the displayed date,
+			* update datepicker to new date.
+			*/
 			case R.id.menu_next:
 				Date nextDate = visitDao.getNextRecordDate(
 						visitModel.getDate());
+						
 				datePicker.updateDate(nextDate.getYear()+1900,
 									  nextDate.getMonth(),
 									  nextDate.getDate());
 				return true;
 				
-			// Save displayed visit to database, 
-			//   either creating new record or
-			//   updating existing record.
+			/**
+			* Save displayed visit to database, either creating a
+			* new record or updating the existing record.
+			*/
 			case R.id.menu_save:
+				// Don't save if pump 1 total is empty.
 				if(visitModel.pump1Total.isNull)
 				{
 					showDialog(SAVE_ERROR_DIALOG);
 				}
+				// Save the visit and display results.
 				else
 				{
 					Toast.makeText(DailyActivity.this, 
@@ -168,29 +153,34 @@ public class DailyActivity extends Activity
 				}
 				return true;
 
-			// Send displayed visit as text to another
-			//   app of the user's choosing
+			/** 
+			* Send displayed visit as text to another app of the 
+			* user's choosing.
+			*/
 			case R.id.menu_send:
 				Intent sendIntent = new Intent();
 				sendIntent.setAction(Intent.ACTION_SEND);
-				sendIntent.putExtra(Intent.EXTRA_TEXT, visitModel.toString());
+				sendIntent.putExtra(Intent.EXTRA_TEXT, 
+									visitModel.toString());
 				sendIntent.setType("text/plain");
 				startActivity(sendIntent);
 				return true;
 
-			// Delete this visit from database
+			/* 
+			* Open a dialog to ask user if they want to delete 
+			* this visit from database. 
+			*/
 			case R.id.menu_discard:
 				showDialog(DISCARD_DIALOG);
 				return true;
 				
-			// About
+			/** Open the About dialog. */
 			case R.id.menu_about:
 				showDialog(ABOUT_DIALOG);
 				return true;
 				
-			// Help
+			/** Help */
 			case R.id.menu_help:
-				showDialog(HELP_DIALOG);
 				Toast.makeText(DailyActivity.this, 
 							   "Help is Selected", 
 							   Toast.LENGTH_SHORT).show();
@@ -210,7 +200,8 @@ public class DailyActivity extends Activity
 			case SAVE_ERROR_DIALOG:
 				Builder saveErrDlgBldr = new AlertDialog.Builder(this);
 				saveErrDlgBldr.setMessage(R.string.dlg_save_empty_error);
-				saveErrDlgBldr.setPositiveButton(R.string.dlg_ok, new saveErrDlgClickListener());
+				saveErrDlgBldr.setPositiveButton(R.string.dlg_ok, 
+						new saveErrDlgClickListener());
 				AlertDialog saveErrDlg = saveErrDlgBldr.create();
 				saveErrDlg.show();
 			break;
@@ -220,8 +211,10 @@ public class DailyActivity extends Activity
 				discardDlgBldr.setIcon(R.drawable.ic_menu_discard);
 				discardDlgBldr.setMessage(R.string.dlg_discard);
 				discardDlgBldr.setCancelable(true);
-				discardDlgBldr.setPositiveButton(R.string.dlg_ok, new discardDlgClickListener());
-				discardDlgBldr.setNegativeButton(R.string.dlg_cancel, new discardDlgClickListener());
+				discardDlgBldr.setPositiveButton(R.string.dlg_ok, 
+						new discardDlgClickListener());
+				discardDlgBldr.setNegativeButton(R.string.dlg_cancel, 
+						new discardDlgClickListener());
 				AlertDialog discardDlg = discardDlgBldr.create();
 				discardDlg.show();
 				break;
@@ -229,35 +222,29 @@ public class DailyActivity extends Activity
 			case ABOUT_DIALOG:
 				Builder aboutDlgBldr = new AlertDialog.Builder(this);
 				aboutDlgBldr.setMessage(R.string.dlg_about);
-				aboutDlgBldr.setPositiveButton(R.string.dlg_close, new aboutDlgClickListener());
-				aboutDlgBldr.setNeutralButton(R.string.dlg_license, new aboutDlgClickListener());
-				aboutDlgBldr.setNegativeButton(R.string.dlg_source, new aboutDlgClickListener());
+				aboutDlgBldr.setPositiveButton(R.string.dlg_close, 
+						new aboutDlgClickListener());
+				aboutDlgBldr.setNeutralButton(R.string.dlg_license, 
+						new aboutDlgClickListener());
+				aboutDlgBldr.setNegativeButton(R.string.dlg_source, 
+						new aboutDlgClickListener());
 				AlertDialog aboutDlg = aboutDlgBldr.create();
 				aboutDlg.show();
-				break;
-				
-			case HELP_DIALOG:
-				Builder helpDlgBldr = new AlertDialog.Builder(this);
-				helpDlgBldr.setMessage("This will end the activity");
-				helpDlgBldr.setCancelable(true);
-				helpDlgBldr.setPositiveButton("I agree", new OkOnClickListener());
-				helpDlgBldr.setNegativeButton("No, no", new CancelOnClickListener());
-				AlertDialog dialog = helpDlgBldr.create();
-				dialog.show();
 				break;
 		}
 		return super.onCreateDialog(id);
 	}
 	
+	/** Save error dialog click listener, closes dialog. */
 	private final class saveErrDlgClickListener implements
     DialogInterface.OnClickListener 
 	{
 		public void onClick(DialogInterface dialog, int which) 
 		{
-			//stub
 		}
 	} 
 	
+	/** About dialog click options. */
 	private final class aboutDlgClickListener implements
     DialogInterface.OnClickListener 
 	{
@@ -265,27 +252,38 @@ public class DailyActivity extends Activity
 		{
 			switch (which)
 			{
-				// Source
+				/** 
+				* Open a browser and navigate to a web page where
+				* user can view or download source code.
+				*/
 				case DialogInterface.BUTTON_NEGATIVE:
-					String urlSource = WellTrakApp.getString(R.string.url_source);
+					String urlSource = WellTrakApp.getString(
+							R.string.url_source);
 					Intent viewSource = new Intent(Intent.ACTION_VIEW);
 					viewSource.setData(Uri.parse(urlSource));
 					startActivity(viewSource);
 					break;
-				// License
+					
+				/** 
+				* Open a browser and navigate to a web page 
+				* displaying the software license.
+				*/
 				case DialogInterface.BUTTON_NEUTRAL:
-					String urlLicense = WellTrakApp.getString(R.string.url_license);
+					String urlLicense = WellTrakApp.getString(
+							R.string.url_license);
 					Intent viewLicense = new Intent(Intent.ACTION_VIEW);
 					viewLicense.setData(Uri.parse(urlLicense));
 					startActivity(viewLicense);
 					break;
-				// Close
+					
+				/** Close the dialog. */
 				case DialogInterface.BUTTON_POSITIVE:
 					break;
 			}
 		}
 	} 
 	
+	/** Ask the user if the displayed visit should be deleted. */
 	private final class discardDlgClickListener implements
     DialogInterface.OnClickListener 
 	{
@@ -293,6 +291,7 @@ public class DailyActivity extends Activity
 		{
 			switch (which)
 			{
+				// Delete record.
 				case DialogInterface.BUTTON_POSITIVE:
 					Toast.makeText(DailyActivity.this, 
 						visitDao.delete(visitModel)?
@@ -300,30 +299,47 @@ public class DailyActivity extends Activity
 						Toast.LENGTH_SHORT).show();
 					visitModel = visitDao.getDay(visitModel.getDate());
 					updateDisplay();	
+					break;
+				
+				// Do nothing.
+				case DialogInterface.BUTTON_NEGATIVE:
+					break;
 			}
 		}
 	} 
 	
-
-	private final class CancelOnClickListener implements
-	DialogInterface.OnClickListener 
+	/** Initialize the display layout fields. */
+	private void initializeDisplayVariables()
 	{
-		public void onClick(DialogInterface dialog, int which) 
-		{
-			Toast.makeText(getApplicationContext(), which+" Activity will continue",
-						   Toast.LENGTH_LONG).show();
-						   
-		}
+		datePicker = (DatePicker)findViewById(R.id.daily_datepicker);
+		editDate = (EditText)findViewById(R.id.edit_date);
+		editTotal1 = (EditText)findViewById(R.id.edit_meter1);
+		editTotal2 = (EditText)findViewById(R.id.edit_meter2);
+		editFlow = (EditText)findViewById(R.id.edit_flow);
+		editCl2Entry = (EditText)findViewById(R.id.edit_cl2entry);
+		editCl2Remote = (EditText)findViewById(R.id.edit_cl2remote);
+		editPhEntry = (EditText)findViewById(R.id.edit_phentry);
+		editPhRemote = (EditText)findViewById(R.id.edit_phremote);
+		
+		datePicker.init(datePicker.getYear(), 
+						datePicker.getMonth(), 
+						datePicker.getDayOfMonth(), 
+						dateSetListener);
 	}
-
-	private final class OkOnClickListener implements
-    DialogInterface.OnClickListener 
+	
+	/** Actions to perform when the user picks a new date. */
+	private DatePicker.OnDateChangedListener dateSetListener = 
+			new DatePicker.OnDateChangedListener() 
 	{
-		public void onClick(DialogInterface dialog, int which) 
+		@Override
+		public void onDateChanged(DatePicker view, int year, 
+				int month, int dayOfMonth) 
 		{
-			DailyActivity.this.finish();
+			visitModel = visitDao.getDay(new Date(year-1900, month, 
+					dayOfMonth));
+			updateDisplay();
 		}
-	} 
+	};
 	
 	/** 
 	* Write the contents of the model to the edit text fields
