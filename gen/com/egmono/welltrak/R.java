@@ -17,12 +17,15 @@ public final class R {
         public static final int ic_menu_about=0x7f020003;
         public static final int ic_menu_discard=0x7f020004;
         public static final int ic_menu_help=0x7f020005;
-        public static final int ic_menu_next=0x7f020006;
-        public static final int ic_menu_previous=0x7f020007;
-        public static final int ic_menu_save=0x7f020008;
-        public static final int ic_menu_search=0x7f020009;
-        public static final int ic_menu_send=0x7f02000a;
-        public static final int ic_menu_share=0x7f02000b;
+        public static final int ic_menu_list=0x7f020006;
+        public static final int ic_menu_next=0x7f020007;
+        public static final int ic_menu_previous=0x7f020008;
+        public static final int ic_menu_save=0x7f020009;
+        public static final int ic_menu_search=0x7f02000a;
+        public static final int ic_menu_send=0x7f02000b;
+        public static final int ic_menu_share=0x7f02000c;
+        public static final int ic_menu_today=0x7f02000d;
+        public static final int itembackground=0x7f02000e;
     }
     public static final class id {
         public static final int daily_datepicker=0x7f070003;
@@ -37,19 +40,29 @@ public final class R {
         public static final int edit_meter2=0x7f070006;
         public static final int edit_phentry=0x7f07000b;
         public static final int edit_phremote=0x7f070007;
-        public static final int menu_about=0x7f070011;
-        public static final int menu_discard=0x7f07000f;
-        public static final int menu_help=0x7f070012;
-        public static final int menu_next=0x7f07000d;
-        public static final int menu_previous=0x7f07000c;
-        public static final int menu_save=0x7f07000e;
-        public static final int menu_send=0x7f070010;
+        public static final int menu_about=0x7f070019;
+        public static final int menu_discard=0x7f070016;
+        public static final int menu_help=0x7f07001a;
+        public static final int menu_list=0x7f070018;
+        public static final int menu_next=0x7f070014;
+        public static final int menu_previous=0x7f070013;
+        public static final int menu_save=0x7f070015;
+        public static final int menu_send=0x7f070017;
+        public static final int textCl2Entry=0x7f07000f;
+        public static final int textCl2Remote=0x7f070010;
+        public static final int textDate=0x7f07000c;
+        public static final int textPhEntry=0x7f070011;
+        public static final int textPhRemote=0x7f070012;
+        public static final int textPump1=0x7f07000d;
+        public static final int textPump2=0x7f07000e;
     }
     public static final class layout {
         public static final int about_dialog=0x7f030000;
         public static final int daily_date=0x7f030001;
         public static final int daily_details=0x7f030002;
         public static final int daily_main=0x7f030003;
+        public static final int monthly_list_item=0x7f030004;
+        public static final int monthly_main=0x7f030005;
     }
     public static final class menu {
         public static final int menu=0x7f060000;
@@ -66,21 +79,21 @@ public final class R {
         public static final int desc_meter2=0x7f04000c;
         public static final int desc_phentry=0x7f040010;
         public static final int desc_phremote=0x7f040011;
-        public static final int dlg_about=0x7f040022;
-        public static final int dlg_cancel=0x7f04001c;
-        public static final int dlg_close=0x7f04001d;
+        public static final int dlg_about=0x7f040023;
+        public static final int dlg_cancel=0x7f04001d;
+        public static final int dlg_close=0x7f04001e;
         /**  Dialog Captions 
          */
-        public static final int dlg_discard=0x7f040020;
-        public static final int dlg_license=0x7f04001e;
+        public static final int dlg_discard=0x7f040021;
+        public static final int dlg_license=0x7f04001f;
         /**  Dialog Button Captions 
          */
-        public static final int dlg_ok=0x7f04001b;
-        public static final int dlg_save_empty_error=0x7f040021;
-        public static final int dlg_source=0x7f04001f;
+        public static final int dlg_ok=0x7f04001c;
+        public static final int dlg_save_empty_error=0x7f040022;
+        public static final int dlg_source=0x7f040020;
         /**  Headers 
          */
-        public static final int hdr_send=0x7f040023;
+        public static final int hdr_send=0x7f040024;
         public static final int hello=0x7f040000;
         /**  Hints 
          */
@@ -96,19 +109,20 @@ public final class R {
         public static final int label_meter2=0x7f040004;
         public static final int label_phentry=0x7f040008;
         public static final int label_phremote=0x7f040009;
-        public static final int menu_about=0x7f040019;
-        public static final int menu_discard=0x7f040018;
-        public static final int menu_help=0x7f04001a;
+        public static final int menu_about=0x7f04001a;
+        public static final int menu_discard=0x7f040019;
+        public static final int menu_help=0x7f04001b;
+        public static final int menu_list=0x7f040017;
         public static final int menu_next=0x7f040015;
         /**  Menu / Activities 
          */
         public static final int menu_previous=0x7f040014;
         public static final int menu_save=0x7f040016;
-        public static final int menu_send=0x7f040017;
-        public static final int url_license=0x7f040025;
+        public static final int menu_send=0x7f040018;
+        public static final int url_license=0x7f040026;
         /**  URLs 
          */
-        public static final int url_source=0x7f040024;
+        public static final int url_source=0x7f040025;
     }
     public static final class style {
         public static final int AppTheme=0x7f050000;

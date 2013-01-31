@@ -28,6 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
 	protected final static String DATABASE_NAME = "WellTrak";
 	protected final static int DATABASE_VERSION = 1;
+	
 
 	public DatabaseHelper()
 	{
@@ -41,14 +42,14 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		// Create visits table.
 		final String sql = "CREATE TABLE " + 
 			VisitDao.TABLE + "(" +
-			VisitDao.columns._ID    + " INTEGER PRIMARY KEY, " +
-			VisitDao.columns.DATE   + " TEXT, " +
-			VisitDao.columns.TOTAL1 + " REAL, " +
-			VisitDao.columns.TOTAL2 + " REAL, " +
-			VisitDao.columns.CL2ENT + " REAL, " +
-			VisitDao.columns.CL2REM + " REAL, " +
-			VisitDao.columns.PHENT  + " REAL, " +
-			VisitDao.columns.PHREM  + " REAL)"; 
+			VisitDao.colNames._ID    + " INTEGER PRIMARY KEY, " +
+			VisitDao.colNames.DATE   + " TEXT, " +
+			VisitDao.colNames.TOTAL1 + " REAL, " +
+			VisitDao.colNames.TOTAL2 + " REAL, " +
+			VisitDao.colNames.CL2ENT + " REAL, " +
+			VisitDao.colNames.CL2REM + " REAL, " +
+			VisitDao.colNames.PHENT  + " REAL, " +
+			VisitDao.colNames.PHREM  + " REAL)"; 
 		
 		db.execSQL(sql);
 		

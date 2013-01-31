@@ -13,7 +13,7 @@ public class Measurement implements Measurable
 	
 	public void setValue(float value) { 
 		this.value = value; 
-		this.isNull=false;
+		this.isNull = false;
 	}
 	
 	public void setValue(String value) {
@@ -44,5 +44,12 @@ public class Measurement implements Measurable
 		else {
 			return String.format("%.1f",this.value); 
 		}
-	} 
+	}
+
+	public String toString(int decimalPlaces)
+	{
+		return String.format("%." 
+							 + Integer.toString(decimalPlaces)
+							 + "f",this.getValue()); 
+	}
 }

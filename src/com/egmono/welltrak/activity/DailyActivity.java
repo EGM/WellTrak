@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Date;
 
 public class DailyActivity extends Activity
@@ -52,7 +53,7 @@ public class DailyActivity extends Activity
 	private EditText editPhEntry;
 	private EditText editPhRemote;
 	
-	private Calendar calendar;
+	private GregorianCalendar calendar = new GregorianCalendar();
 	
 	private VisitModel visitModel;
 	private VisitDao visitDao;
@@ -64,15 +65,41 @@ public class DailyActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.daily_main);
 		
+		try{
+		// Use year from intent extras, or default to current year.
+		calendar.set(Calendar.YEAR, 
+					getIntent().getIntExtra("VIEW_YEAR", 
+					Calendar.getInstance().get(Calendar.YEAR)));
+
+		// Use month from intent extras, or default to current month.
+		calendar.set(Calendar.MONTH,
+					getIntent().getIntExtra("VIEW_MONTH",
+					Calendar.getInstance().get(Calendar.MONTH)));
+					
+		// Use day from intent extras, or default to current day.
+		calendar.set(Calendar.DAY_OF_MONTH,
+					getIntent().getIntExtra("VIEW_DAY_OF_MONTH",
+					Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
+		
+		calendar.getTime();
+		
+		Log.d(TAG, "Year = "+calendar.get(Calendar.YEAR));
+		Log.d(TAG, "Month = "+calendar.get(Calendar.MONTH));
+		Log.d(TAG, "DayOfMonth = "+calendar.get(Calendar.DAY_OF_MONTH));
+			
+		}
+		catch(Exception e){
+			Log.e(TAG, "What broke: "+e.getMessage(), e);
+		}
 		initializeDisplayVariables();
 		
 		visitModel = new VisitModel();
 		visitDao = new VisitDao();
-		
+						
 		// Force an update of the datepicker to cause display update.
-		datePicker.updateDate(datePicker.getYear(), 
-							  datePicker.getMonth(), 
-							  datePicker.getDayOfMonth());
+		datePicker.updateDate(calendar.get(Calendar.YEAR),
+				calendar.get(Calendar.MONTH),
+				calendar.get(Calendar.DAY_OF_MONTH));
 	}
 	
 	/** Initiating Menu XML file (menu.xml) */
@@ -175,6 +202,20 @@ public class DailyActivity extends Activity
 			*/
 			case R.id.menu_discard:
 				showDialog(DISCARD_DIALOG);
+				return true;
+				
+			/** View month. */
+			case R.id.menu_list:
+			
+				Log.d(TAG, "Year = "+calendar.get(Calendar.YEAR));
+				Log.d(TAG, "Month = "+calendar.get(Calendar.MONTH));
+				Log.d(TAG, "DayOfMonth = "+calendar.get(Calendar.DAY_OF_MONTH));
+				
+				Intent intent = new Intent(this, MonthlyListActivity.class);
+				intent.putExtra("VIEW_YEAR", calendar.get(Calendar.YEAR));
+				intent.putExtra("VIEW_MONTH", calendar.get(Calendar.MONTH));
+				intent.putExtra("VIEW_DAY_OF_MONTH", calendar.get(Calendar.DAY_OF_MONTH));
+				startActivity(intent);
 				return true;
 				
 			/** Open the About dialog. */
@@ -341,6 +382,10 @@ public class DailyActivity extends Activity
 			visitModel = visitDao.getDay(new Date(year-1900, month, 
 					dayOfMonth));
 			updateDisplay();
+			calendar.set(Calendar.YEAR, datePicker.getYear());
+			calendar.set(Calendar.MONTH, datePicker.getMonth());
+			calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+			calendar.getTime();
 		}
 	};
 	
