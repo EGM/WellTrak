@@ -89,6 +89,38 @@ public class VisitDao
 		return previousDate;
 	}
 	
+	public Date getFirstRecordDate()
+	{
+		SQLiteDatabase db = new DatabaseHelper().getReadableDatabase();
+		Cursor firstRecord = db.rawQuery("SELECT MIN(visits.date) FROM "+TABLE,null);
+		Date minimumDate = new Date();
+		if(firstRecord.moveToFirst())
+			try {
+				minimumDate = sdf.parse(firstRecord.getString(0));
+			}
+			catch(ParseException e) {
+				Log.e(TAG, "getFirstRecordDate error "+e.getMessage(), e);
+			}
+		db.close();
+		return minimumDate;
+	}
+	
+	public Date getLastRecordDate()
+	{
+		SQLiteDatabase db = new DatabaseHelper().getReadableDatabase();
+		Cursor lastRecord = db.rawQuery("SELECT MAX(visits.date) FROM "+TABLE,null);
+		Date maximumDate = new Date();
+		if(lastRecord.moveToFirst())
+			try {
+				maximumDate = sdf.parse(lastRecord.getString(0));
+			}
+			catch(ParseException e) {
+				Log.e(TAG, "getLastRecordDate error "+e.getMessage(), e);
+			}
+		db.close();
+		return maximumDate;
+	}
+	
 	public boolean delete(VisitModel visit)
 	{
 		SQLiteDatabase db = new DatabaseHelper().getWritableDatabase();
@@ -318,9 +350,11 @@ public class VisitDao
 	
 	private Date getParsedDate(Cursor cursor)
 	{
+		String dateString = "";
 		Date date = new Date();
-		String dateString = cursor.getString(
-				cursor.getColumnIndex(colNames.DATE));
+		if(cursor.moveToFirst()){
+		dateString = cursor.getString(
+				cursor.getColumnIndex(colNames.DATE));}
 		try
 		{
 			date = sdf.parse(dateString);

@@ -55,8 +55,8 @@ public class DailyActivity extends Activity
 	
 	private GregorianCalendar calendar = new GregorianCalendar();
 	
-	private VisitModel visitModel;
-	private VisitDao visitDao;
+	private VisitModel visitModel = new VisitModel();
+	private VisitDao visitDao = new VisitDao();
 
     /** Called when the activity is first created. */
     @Override
@@ -93,8 +93,9 @@ public class DailyActivity extends Activity
 		}
 		initializeDisplayVariables();
 		
-		visitModel = new VisitModel();
-		visitDao = new VisitDao();
+//		visitModel = new VisitModel();
+//		visitDao = new VisitDao();
+		
 						
 		// Force an update of the datepicker to cause display update.
 		datePicker.updateDate(calendar.get(Calendar.YEAR),
@@ -144,6 +145,10 @@ public class DailyActivity extends Activity
 				Date previousDate = visitDao.getPreviousRecordDate(
 						visitModel.getDate());
 						
+				//TODO: change the following comparison to ignore hours
+				//      minutes, seconds
+				// If no previous date then do nothing.
+				if(previousDate != new Date())
 				datePicker.updateDate(previousDate.getYear()+1900,
 									  previousDate.getMonth(),
 									  previousDate.getDate());
@@ -157,6 +162,8 @@ public class DailyActivity extends Activity
 				Date nextDate = visitDao.getNextRecordDate(
 						visitModel.getDate());
 						
+				// If no next date then do nothing.
+				if(nextDate != new Date())
 				datePicker.updateDate(nextDate.getYear()+1900,
 									  nextDate.getMonth(),
 									  nextDate.getDate());
@@ -364,7 +371,24 @@ public class DailyActivity extends Activity
 		editCl2Remote = (EditText)findViewById(R.id.edit_cl2remote);
 		editPhEntry = (EditText)findViewById(R.id.edit_phentry);
 		editPhRemote = (EditText)findViewById(R.id.edit_phremote);
+
+//		Log.d(TAG, "Min Date: "+visitDao.getFirstRecordDate().toString());
+//		Log.d(TAG, "Max Date: "+visitDao.getLastRecordDate().toString());
 		
+		// Set date picker minimum date to 2 months before first record.
+		Date d = visitDao.getFirstRecordDate();
+		int m = d.getMonth();
+		d.setMonth(m-2);
+		datePicker.setMinDate(d.getTime());
+		
+		// Set date picker maximum date to 2 months after today's date.
+		d = new Date();
+		
+		m = d.getMonth();
+		d.setMonth(m+2);
+		datePicker.setMaxDate(d.getTime());
+		
+		// Initalize date picker and set listener.
 		datePicker.init(datePicker.getYear(), 
 						datePicker.getMonth(), 
 						datePicker.getDayOfMonth(), 
