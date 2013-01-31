@@ -240,7 +240,7 @@ public class VisitDao
 		SQLiteDatabase db = new DatabaseHelper().getReadableDatabase();
 		Cursor c = null;
 		calendar.set(Calendar.YEAR, year);
-		calendar.set(Calendar.MONTH, month-1);
+		calendar.set(Calendar.MONTH, month);
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
 		calendar.getTime();
 		
@@ -265,7 +265,7 @@ public class VisitDao
 				VisitDao.colNames.PHREM  + " REAL)"); 
 			for(int i=1;i<=dayMax;i++) 
 			{
-				cv.put("date", String.format("%4d-%02d-%02d",year,month,i));
+				cv.put("date", String.format("%4d-%02d-%02d",year,month+1,i));
 				db.insertOrThrow("showmonth","date",cv);
 			}
 
